@@ -14,14 +14,10 @@ $this->title = $name;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+        <p>Hubo un error al tratar de procesar su solicitud, lo identificamos como: <b> <?= nl2br(Html::encode($message)) ?></b></p>
+        <p>Por favor contáctenos, si considera que este es un problema del servidor</p>
     </div>
 
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
+
 
 </div>
