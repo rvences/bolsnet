@@ -35,6 +35,7 @@ use kartik\widgets\RangeInput;
 
     <div class="row">
         <div class="col-md-4">
+            <p>Indicar que rago de edad es la que puede ser considerada para la vacante</p>
             <?php
             $model->edad_minima = 16;
             $model->edad_maxima = 99;
@@ -52,6 +53,7 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-3">
+            <p>Cual es el sueldo que se va a pagar de forma mensual a la persona que ocupe la vacante</p>
             <?php
             $model->sueldo = 5000;
 
@@ -66,7 +68,9 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-2">
+            <p>¿Cuantos años de experiencia mínima se requieren para ocupar el puesto ?</p>
             <?php
+
             $model->experiencia = 1;
 
             echo $form->field($model, 'experiencia')->widget(\kartik\number\NumberControl::classname(), [
@@ -79,6 +83,7 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-3">
+            <p>¿Cuantas vacantes estas disponibles para este puesto ?</p>
             <?php
             $model->no_vacantes = 1;
             ?>
@@ -88,12 +93,14 @@ use kartik\widgets\RangeInput;
 
     <div class="row">
         <div class="col-md-4">
+            <p>Indicar si es relevante filtrar la información de los CV de acuerdo al Sexo del aspirante</p>
             <?php
             $data = ['Hombre' => 'Masculino', 'Mujer' => 'Femenino', 'Indistinto' => 'No Relevante' ];
             echo $form->field($model, 'sexo')->radioButtonGroup($data);?>
         </div>
 
         <div class="col-md-3">
+            <p>Indicar cuanto tiempo va a estar disponible la vacante, sin importar si existen aspirantes o NO</p>
             <?= $form->field($model, 'vigencia')
                 ->widget(\kartik\datecontrol\DateControl::class, [
 
@@ -104,6 +111,7 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-5">
+            <p>Indicar que estado civil debe de tener el aspirante para ser considerado para la vacante </p>
             <?php
             $data = \yii\helpers\ArrayHelper::map(
                     \common\models\Cestadocivil::find()->asArray()
@@ -120,6 +128,7 @@ use kartik\widgets\RangeInput;
 
     <div class="row">
         <div class="col-md-4">
+            <p>Indicar en que horario esta disponible la vacante</p>
             <?php
             $data = \yii\helpers\ArrayHelper::map(
                 \common\models\Chorario::find()->asArray()
@@ -131,6 +140,8 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-4">
+            <p>Se requiere el catálogo de puestos de Ayuntamiento de Xalapa para incluirlos y poder seleccionar
+            posteriormente el puesto que esta vacante</p>
             <?php
             $data = \yii\helpers\ArrayHelper::map(
                 \common\models\Cpuestos::find()->asArray()
@@ -142,6 +153,7 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-4">
+            <p>Indicar el tipo de contratación que se va a utilizar en la vacante</p>
             <?php
             $data = \yii\helpers\ArrayHelper::map(
                 \common\models\Ctcontratacion::find()->asArray()
@@ -153,7 +165,10 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-4">
+            <p>Se requiere el catálogo de las profesiones con las que se cuenta en el Ayuntamiento, para poder filtrar que profesión
+            debe de tener el aspirante</p>
             <?php
+
             $data = \yii\helpers\ArrayHelper::map(
                 \common\models\Cprofesiones::find()->asArray()
                     ->orderBy('profesion')->all(), 'id',
@@ -164,6 +179,7 @@ use kartik\widgets\RangeInput;
         </div>
 
         <div class="col-md-4">
+            <p>Indicar cual es el nivel de estudio que se requiere para la vacante</p>
             <?php
             $data = \yii\helpers\ArrayHelper::map(
                 \common\models\Cnivelestudios::find()->asArray()

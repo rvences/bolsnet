@@ -12,17 +12,17 @@ $this->title = 'Ofertas Laborales Disponibles';
 <div class="ofertas-laborales-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <p>Listado de las ofertas laborales que tiene disponibles el Ayuntamiento de Xalapa en este momento.</p>
+    <p>Para más información respecto a estas ofertas laborales, favor de dirigirse al área de recursos humanos del Ayuntamiento.</p>
+    <p>Todavía NO puedes publicar tu información personal, ni tu CV; estamos trabajando para que lo puedas incluir próximamente.</p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-                'puesto.puesto',
+            'puesto.puesto',
             'sueldo',
             'horario.horario',
             'sexo',
             'tcontratacion.tcontratacion',
-
-
             'actividades:ntext',
             'conocimientos:ntext',
             'infoadicional:ntext',

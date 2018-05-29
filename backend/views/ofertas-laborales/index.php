@@ -14,6 +14,7 @@ $this->title = 'Ofertas Laborales';
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <p>Listado de los puestos que se tienen disponibles y que se publican como Vacantes en la Bolsa de Trabajo</p>
     <p>
         <?= Html::a('Nueva Ofertas Laborales', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

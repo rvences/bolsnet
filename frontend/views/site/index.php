@@ -15,9 +15,11 @@ $this->title = 'Bolsa Trabajo';
             </div>
             <div class="col-xs-6">
                 <img class="img-responsive" src="images/logo-armas.png">
-                <h1>Info de Bolsa!</h1>
+                <h1>Información de Bolsa de Trabajo</h1>
 
-                <p class="lead">Página para mostrar información relevante.</p>
+                <p class="lead">Registrate para que puedas visualizar las vacantes que tenemos disponibles
+                    en la bolsa de Trabajo de Xalapa.</p>
+                <p class="lead">Próximamente podrás subir tu información personal y C.V.</p>
 
             </div>
         </div>

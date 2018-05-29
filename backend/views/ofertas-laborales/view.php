@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <p>Este apartado se va a cambiar la forma de visualización una vez que se tengan los catálogos de acuerdo a los que utiliza el Ayuntamiento para que se puedan homologar.</p>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

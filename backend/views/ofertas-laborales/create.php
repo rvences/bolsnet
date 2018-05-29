@@ -14,6 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p>En este apartado es donde se registran las vacantes que van a poder ver los aspirantes una vez que se hayan registrado</p>
+
+
+    <p>Indicar que Actividades o conocimientos debe de tener el aspirante a la vacante, para que pueda saber si cumple con los requisitos previos</p>
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
