@@ -145,7 +145,7 @@ class SiteController extends Controller
 
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error', 'No logramos restablecer la contrasela con el correo proporcionado.');
+                Yii::$app->session->setFlash('error', 'No logramos restablecer la contraseña con el correo proporcionado.');
             }
         }
 

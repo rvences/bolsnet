@@ -20,6 +20,20 @@ return [
                 ],
             ],
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@common/mail',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'correo.nibira.com',  // ej. smtp.mandrillapp.com o smtp.gmail.com
+                'username' => 'bolsnet@nibira.com',
+                'password' => 'xalapa',
+                'port' => '587', // Port 25 is a very common port too
+                'encryption' => 'tls', // It is often used, check your provider or mail server specs
+
+            ],
+            'useFileTransport' => false,
+        ],
     ],
 
 ];
