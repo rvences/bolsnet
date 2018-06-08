@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = 'Actualizando';
                             <div class="panel-heading">
                                 <h3 class="panel-title pull-left">Curso</h3>
                                 <div class="pull-right">
-                                    <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+                                    <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i> Eliminar</button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

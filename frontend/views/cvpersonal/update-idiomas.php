@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = 'Actualizando';
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h5>
-                    <i class="glyphicon glyphicon-book"></i> Experiencia de: <?=$modelPersonal->nombre . ' ' . $modelPersonal->apaterno . ' ' . $modelPersonal->amaterno?>
+                    <i class="glyphicon glyphicon-book"></i> Idiomas de: <?=$modelPersonal->nombre . ' ' . $modelPersonal->apaterno . ' ' . $modelPersonal->amaterno?>
                     <button type="button" class="add-item btn btn-success btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Agregar</button>
                 </h5>
             </div>
@@ -48,9 +48,9 @@ $this->params['breadcrumbs'][] = 'Actualizando';
                     <?php foreach ($modelsIdioma as $i => $modelIdioma): ?>
                         <div class="item panel panel-default"><!-- widgetItem -->
                             <div class="panel-heading">
-                                <h3 class="panel-title pull-left">Experiencia</h3>
+                                <h3 class="panel-title pull-left">Idioma</h3>
                                 <div class="pull-right">
-                                    <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+                                    <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i> Eliminar</button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
