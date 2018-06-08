@@ -21,15 +21,14 @@
         "kartik-v/yii2-widgets": "@dev",
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-number": "*",
-        "kartik-v/yii2-datecontrol": "@dev"
+        "kartik-v/yii2-datecontrol": "@dev",
+        "2amigos/yii2-dynamic-form": "dev-master",
+        "kartik-v/yii2-date-range": "dev-master"
 
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
-        "yiisoft/yii2-gii": "~2.0.0",
-        "yiisoft/yii2-faker": "~2.0.0",
-        "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1"
+        "yiisoft/yii2-gii": "~2.0.0"
     },
     "config": {
         "process-timeout": 1800,

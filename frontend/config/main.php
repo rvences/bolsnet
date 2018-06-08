@@ -11,6 +11,44 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'datecontrol' =>  [
+            'class' => '\kartik\datecontrol\Module',
+            'autoWidget' => true,
+            'autoWidgetSettings' => [
+                'date' => [
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'todayHighlight' => true,
+                        'todayBtn' => true,
+                    ],
+                ],
+            ],
+            // format settings for displaying each date attribute (ICU format example)
+            'displaySettings' => [
+                // \kartik\datecontrol\Module::FORMAT_DATE => 'dd.MM.yyyy',
+                \kartik\datecontrol\Module::FORMAT_DATE => 'php:D j M Y',
+                \kartik\datecontrol\Module::FORMAT_TIME => 'HH:mm:ss a',
+                \kartik\datecontrol\Module::FORMAT_DATETIME => 'dd-MM-yyyy HH:mm:ss a',
+            ],
+            // format settings for saving each date attribute (PHP format example)
+            'saveSettings' => [
+                \kartik\datecontrol\Module::FORMAT_DATE => 'php:Y-m-d', // saves as unix timestamp
+                \kartik\datecontrol\Module::FORMAT_TIME => 'php:H:i:s',
+                \kartik\datecontrol\Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
+            ],
+
+            // set your display timezone
+            'displayTimezone' => 'America/Mexico_City',
+
+            // set your timezone for date saved to db
+            //'saveTimezone' => 'UTC',
+            'saveTimezone' => 'America/Mexico_City',
+
+
+
+        ]
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-bolsafront',
@@ -50,6 +88,9 @@ return [
             ],
             'useFileTransport' => false,
         ],
+
+
+
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -59,5 +100,6 @@ return [
         ],
         */
     ],
+
     'params' => $params,
 ];

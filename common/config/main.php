@@ -18,6 +18,13 @@ return [
                   'sourcePath' => '../../frontend/web/css/',
                     'css' => ['css.css']
                 ],
+
+                'wbraganca\dynamicform\DynamicFormAsset' => [
+                    'sourcePath' => '../../frontend/web/js',
+                    'js' => [
+                        'yii2-dynamic-form.js'
+                    ],
+                ],
             ],
         ],
     ],

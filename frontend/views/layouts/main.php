@@ -50,7 +50,8 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Registrate', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Accede', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = ['label' => 'Vacantes', 'url' => ['/ofertas-laborales/index']];
+        $menuItems[] = ['label' => 'Datos Personales', 'url'=>['/cvpersonal/index']];
+        // $menuItems[] = ['label' => 'Vacantes', 'url' => ['/ofertas-laborales/index']]; No es prioridad, funciona pero se restringe el acceso
 
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
