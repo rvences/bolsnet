@@ -37,19 +37,35 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Inicio', 'url' => ['/site/index']],
-        ['label' => 'Oferta Laboral', 'url' => ['/ofertas-laborales/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+    } elseif(\common\models\User::isUserAdmin(Yii::$app->user->identity->id)) {
+        $menuItems= [
+            ['label' => 'Oferta Laboral', 'url' => ['/ofertas-laborales/index']],
+            ['label' => 'Catalogos', 'items'=> array(
+                ['label' => 'Profesiones', 'url' => ['/cprofesiones/index']],
+                ['label' => 'Idiomas', 'url' => ['/cidiomas/index']],
+                ['label' => 'Puestos', 'url' => ['/cpuestos/index']],
+
+            )],
+            ['label' => 'Personal', 'items'=> array(
+                ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']],
+                //['label'=> 'Cambia Contraseña', 'url'=> ['/site/cambiaclave']],
+            )],
+
+        ];
+    } elseif(\common\models\User::isUserReclutador(Yii::$app->user->identity->id)) {
+
+
+
+
+
+
+
+
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

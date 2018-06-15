@@ -186,4 +186,24 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public static function isUserAdmin($id)
+    {
+        if (User::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE, 'role' => 'ADMIN'])){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public static function isUserReclutador($id)
+    {
+        if (User::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE, 'role' => ['RECLUTADOR', 'ADMIN']])){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

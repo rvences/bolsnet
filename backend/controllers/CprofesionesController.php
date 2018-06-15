@@ -3,20 +3,21 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\OfertasLaborales;
-use backend\models\search\OfertasLaboralesSearch;
+use common\models\Cprofesiones;
+use backend\models\search\CprofesionesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
+
 /**
- * OfertasLaboralesController implements the CRUD actions for OfertasLaborales model.
+ * CprofesionesController implements the CRUD actions for Cprofesiones model.
  */
-class OfertasLaboralesController extends Controller
+class CprofesionesController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -47,12 +48,12 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Lists all OfertasLaborales models.
+     * Lists all Cprofesiones models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new OfertasLaboralesSearch();
+        $searchModel = new CprofesionesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,7 +63,7 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Displays a single OfertasLaborales model.
+     * Displays a single Cprofesiones model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -75,16 +76,15 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Creates a new OfertasLaborales model.
+     * Creates a new Cprofesiones model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new OfertasLaborales();
+        $model = new Cprofesiones();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -94,7 +94,7 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Updates an existing OfertasLaborales model.
+     * Updates an existing Cprofesiones model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -114,7 +114,7 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Deletes an existing OfertasLaborales model.
+     * Deletes an existing Cprofesiones model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -128,15 +128,15 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Finds the OfertasLaborales model based on its primary key value.
+     * Finds the Cprofesiones model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return OfertasLaborales the loaded model
+     * @return Cprofesiones the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = OfertasLaborales::findOne($id)) !== null) {
+        if (($model = Cprofesiones::findOne($id)) !== null) {
             return $model;
         }
 

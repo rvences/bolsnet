@@ -57,8 +57,8 @@ class Cvnivelestudio extends \yii\db\ActiveRecord
             'cprofesion_id' => 'Profesión',
             'escuela' => 'Escuela',
             'certificado' => 'Certificado',
-            'titulo' => 'Titulo',
-            'cedula' => 'Cedula',
+            'titulo' => 'Título',
+            'cedula' => 'Cédula',
         ];
     }
 

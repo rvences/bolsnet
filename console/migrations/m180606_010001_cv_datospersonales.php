@@ -33,6 +33,7 @@ class m180606_010001_cv_datospersonales extends Migration
             'tel_ofna' => $this->string(10),
             'tel_ofna_ext' => $this->string(10),
             'tel_movil' => $this->string(10),
+            'tel_casa_lada' => $this->string(3),
             'tel_casa' => $this->string(10),
             'correo' => $this->string(30),
             // Datos de Domicilio

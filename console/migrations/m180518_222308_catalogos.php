@@ -233,8 +233,8 @@ class m180518_222308_catalogos extends Migration
                 ['Soltero'],
                 ['Casado'],
                 ['Union Libre'],
-                //['Divorciado - Soltero'],
-                //['Viudo - Soltero'],
+                ['Divorciado'],
+                ['Viudo'],
             )
         );
 

@@ -13,7 +13,7 @@ use common\models\Cestadocivil;
 
 <div class="row">
     <div class="col-md-3">
-        <?= $this->render('_menuizq') ?>
+        <?= $this->render('_menuizq', [ 'estado' => $estado]) ?>
     </div>
     <div class="col-md-9">
 
@@ -69,13 +69,16 @@ use common\models\Cestadocivil;
                 <?= $form->field($model, 'tel_ofna')->textInput(['maxlength' => true, 'placeholder' => 'Teléfono Oficina']); ?>
             </div>
             <div class="col-md-2">
-                <?= $form->field($model, 'tel_ofna_ext')->textInput(['maxlength' => true, 'placeholder' => 'Extensión Oficina']); ?>
-            </div>
-            <div class="col-md-4">
-                <?= $form->field($model, 'tel_movil')->textInput(['maxlength' => true, 'placeholder' => 'Teléfono Celular']); ?>
+                <?= $form->field($model, 'tel_ofna_ext')->textInput(['maxlength' => true, 'placeholder' => 'Extensión']); ?>
             </div>
             <div class="col-md-3">
-                <?= $form->field($model, 'tel_casa')->textInput(['maxlength' => true, 'placeholder' => 'Teléfono de Casa']); ?>
+                <?= $form->field($model, 'tel_movil')->textInput(['maxlength' => true, 'placeholder' => 'Móvil']); ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($model, 'tel_casa_lada')->textInput(['maxlength' => true, 'placeholder' => 'LADA']); ?>
+            </div>
+            <div class="col-md-2">
+                <?= $form->field($model, 'tel_casa')->textInput(['maxlength' => true, 'placeholder' => 'Casa']); ?>
             </div>
 
         </div>

@@ -20,6 +20,7 @@ use Yii;
  * @property string $tel_ofna
  * @property string $tel_ofna_ext
  * @property string $tel_movil
+ * @property string $tel_casa_lada
  * @property string $tel_casa
  * @property string $correo
  * @property int $entfed_id
@@ -40,6 +41,7 @@ use Yii;
  * @property Centfeds $entfed
  * @property Cestadocivil $estadocivil
  * @property User $user
+ * @property Cvpuestos[] $cvpuestos
  */
 class Cvpersonal extends \yii\db\ActiveRecord
 {
@@ -57,16 +59,17 @@ class Cvpersonal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'apaterno'], 'required'],
+            [['nombre', 'apaterno', 'amaterno', 'tel_movil', 'correo'], 'required'],
             [['estadocivil_id', 'entfed_id'], 'integer'],
             [['user_id', 'fnac', 'created_at', 'updated_at'], 'safe'],
             [['nombre', 'apaterno', 'amaterno', 'correo'], 'string', 'max' => 30],
             [['rfc'], 'string', 'max' => 13],
             [['curp'], 'string', 'max' => 18],
             [['sexo'], 'string', 'max' => 1],
-            [['tel_ofna', 'tel_ofna_ext', 'tel_movil', 'tel_casa'], 'string', 'max' => 10],
+            [['tel_casa_lada'], 'integer', 'max' => 999],
+            [['tel_ofna', 'tel_ofna_ext', 'tel_movil', 'tel_casa'], 'integer', 'max' => 9999999999],
             [['municipio', 'colonia', 'calle', 'numero', 'entrecalle'], 'string', 'max' => 100],
-            [['cp'], 'string', 'max' => 5],
+            [['cp'], 'integer', 'max' => 99999],
             [['entfed_id'], 'exist', 'skipOnError' => true, 'targetClass' => Centfeds::className(), 'targetAttribute' => ['entfed_id' => 'id']],
             [['estadocivil_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cestadocivil::className(), 'targetAttribute' => ['estadocivil_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -94,6 +97,7 @@ class Cvpersonal extends \yii\db\ActiveRecord
             'tel_ofna' => 'Tel Oficina',
             'tel_ofna_ext' => 'Extensión',
             'tel_movil' => 'Tel Celular',
+            'tel_casa_lada' => 'Lada',
             'tel_casa' => 'Tel Casa',
             'correo' => 'Correo',
             'entfed_id' => 'Entfed ID',
@@ -159,6 +163,14 @@ class Cvpersonal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getCvpuestos()
+    {
+        return $this->hasMany(Cvpuestos::className(), ['cvpersonal_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getEntfed()
     {
         return $this->hasOne(Centfeds::className(), ['id' => 'entfed_id']);
@@ -192,5 +204,29 @@ class Cvpersonal extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public  function estadoBolsa() {
+
+        if(Cvidiomas::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 6;}
+        elseif(Cvcursos::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 5;}
+        elseif(Cvpuestos::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 4;}
+        elseif(Cvexperiencia::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 3;}
+        elseif(Cvnivelestudio::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 2;}
+        elseif(Cvpersonal::find()->where(['user_id'=>Yii::$app->user->id])->exists()) {return 1;}
+
+
+        /*
+        if ( $this->getCvnivelestudios(Yii::$app->user->id)) {return 1;}
+        elseif ( $this->getCvexperiencias(Yii::$app->user->id)) {return 2;}
+
+
+            <li><?php echo Html::a('Datos Personales', ['cvpersonal/index']); ?></li>
+    <li><?php echo ($estado > 0) ? Html::a('Estudios Académicos', ['cvpersonal/update-nivel-estudio']) : "Estudios Académicos" ; ?></li>
+    <li><?php echo ($estado > 1) ? Html::a('Experiencia', ['cvpersonal/update-experiencia']) : "Experiencia" ; ?></li>
+    <li><?php echo ($estado > 2) ? Html::a('Cursos', ['cvpersonal/update-cursos']) : "Cursos" ; ?></li>
+    <li><?php echo ($estado > 3) ? Html::a('Idiomas', ['cvpersonal/update-idiomas']) : "Idiomas" ; ?></li>
+
+*/
     }
 }

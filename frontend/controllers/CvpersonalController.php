@@ -6,6 +6,7 @@ use common\models\Cvcursos;
 use common\models\Cvidiomas;
 use common\models\Cvnivelestudio;
 use common\models\Cvexperiencia;
+use common\models\Cvpuestos;
 use Yii;
 use common\models\Cvpersonal;
 use yii\web\Controller;
@@ -103,8 +104,10 @@ class CvpersonalController extends Controller
                 return $this->redirect(['update', 'id' => $model->id]);
             }
 
+
             return $this->render('update', [
                 'model' => $model,
+                'estado' => $model->estadoBolsa(),
             ]);
         }
         throw new NotFoundHttpException('El usuario esta bloqueado para actualizar.');
@@ -198,7 +201,10 @@ class CvpersonalController extends Controller
 
         return $this->render('update-nivel-estudio', [
             'model' => $model,
-            'modelsNE' => (empty($modelNE)) ? [new Cvnivelestudio()] : $modelNE
+            'modelsNE' => (empty($modelNE)) ? [new Cvnivelestudio()] : $modelNE,
+            'estado' => $model->estadoBolsa(),
+
+
         ]);
     }
 
@@ -255,7 +261,9 @@ class CvpersonalController extends Controller
 
         return $this->render('update-experiencia', [
             'modelPersonal' => $modelPersonal,
-            'modelsExperiencia' => (empty($modelsExperiencia)) ? [new Cvexperiencia()] : $modelsExperiencia
+            'modelsExperiencia' => (empty($modelsExperiencia)) ? [new Cvexperiencia()] : $modelsExperiencia,
+            'estado' => $modelPersonal->estadoBolsa(),
+
         ]);
     }
 
@@ -268,7 +276,7 @@ class CvpersonalController extends Controller
         if ($modelPersonal->load(Yii::$app->request->post())) {
 
             $oldIDs = ArrayHelper::map($modelsCurso, 'id', 'id');
-            $modelsCurso = Model::createMultiple(Cvexperiencia::class, $modelsCurso);
+            $modelsCurso = Model::createMultiple(Cvcursos::class, $modelsCurso);
             Model::loadMultiple($modelsCurso, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsCurso, 'id', 'id')));
 
@@ -312,7 +320,9 @@ class CvpersonalController extends Controller
 
         return $this->render('update-cursos', [
             'modelPersonal' => $modelPersonal,
-            'modelsCurso' => (empty($modelsCurso)) ? [new Cvcursos()] : $modelsCurso
+            'modelsCurso' => (empty($modelsCurso)) ? [new Cvcursos()] : $modelsCurso,
+            'estado' => $modelPersonal->estadoBolsa(),
+
         ]);
     }
 
@@ -369,9 +379,74 @@ class CvpersonalController extends Controller
 
         return $this->render('update-idiomas', [
             'modelPersonal' => $modelPersonal,
-            'modelsIdioma' => (empty($modelsIdioma)) ? [new Cvidiomas()] : $modelsIdioma
+            'modelsIdioma' => (empty($modelsIdioma)) ? [new Cvidiomas()] : $modelsIdioma,
+            'estado' => $modelPersonal->estadoBolsa(),
+
+
         ]);
     }
+
+    public function actionUpdatePuestos()
+    {
+        $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
+        $modelPersonal = $this->findModel($id);
+        $modelsPuesto = $modelPersonal->cvpuestos;
+
+        if ($modelPersonal->load(Yii::$app->request->post())) {
+
+            $oldIDs = ArrayHelper::map($modelsPuesto, 'id', 'id');
+            $modelsPuesto = Model::createMultiple(Cvpuestos::class, $modelsPuesto);
+            Model::loadMultiple($modelsPuesto, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsPuesto, 'id', 'id')));
+
+            // ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                    ActiveForm::validateMultiple($modelsPuesto),
+                    ActiveForm::validate($modelPersonal)
+                );
+            }
+
+            // validate all models
+            $valid = $modelPersonal->validate();
+            $valid = Model::validateMultiple($modelsPuesto) && $valid;
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $modelPersonal->save(false)) {
+                        if (! empty($deletedIDs)) {
+                            Cvpuestos::deleteAll(['id' => $deletedIDs]);
+                        }
+                        foreach ($modelsPuesto as $modelPuesto) {
+                            $modelPuesto->cvpersonal_id = $modelPersonal->id;
+                            if (! ($flag = $modelPuesto->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['update', 'id' => $modelPersonal->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
+        }
+
+        return $this->render('update-puestos', [
+            'modelPersonal' => $modelPersonal,
+            'modelsPuesto' => (empty($modelsPuesto)) ? [new Cvpuestos()] : $modelsPuesto,
+            'estado' => $modelPersonal->estadoBolsa(),
+
+
+        ]);
+    }
+
+
 
 
 

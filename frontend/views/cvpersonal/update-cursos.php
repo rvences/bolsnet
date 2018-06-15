@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = 'Actualizando';
 
 <div class="row">
     <div class="col-md-3">
-        <?= $this->render('_menuizq') ?>
+        <?= $this->render('_menuizq', [ 'estado' => $estado]) ?>
     </div>
     <div class="col-md-9">
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>

@@ -3,56 +3,39 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\OfertasLaborales;
-use backend\models\search\OfertasLaboralesSearch;
+use common\models\Cpuestos;
+use backend\models\search\CpuestosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * OfertasLaboralesController implements the CRUD actions for OfertasLaborales model.
+ * CpuestosController implements the CRUD actions for Cpuestos model.
  */
-class OfertasLaboralesController extends Controller
+class CpuestosController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            //Llamada al método que comprueba si es un vendedor
-                            return \common\models\User::isUserAdmin(Yii::$app->user->identity->id)  ;
-                        },
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-
         ];
     }
 
     /**
-     * Lists all OfertasLaborales models.
+     * Lists all Cpuestos models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new OfertasLaboralesSearch();
+        $searchModel = new CpuestosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,7 +45,7 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Displays a single OfertasLaborales model.
+     * Displays a single Cpuestos model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -75,16 +58,15 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Creates a new OfertasLaborales model.
+     * Creates a new Cpuestos model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new OfertasLaborales();
+        $model = new Cpuestos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -94,7 +76,7 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Updates an existing OfertasLaborales model.
+     * Updates an existing Cpuestos model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -114,7 +96,7 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Deletes an existing OfertasLaborales model.
+     * Deletes an existing Cpuestos model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -128,15 +110,15 @@ class OfertasLaboralesController extends Controller
     }
 
     /**
-     * Finds the OfertasLaborales model based on its primary key value.
+     * Finds the Cpuestos model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return OfertasLaborales the loaded model
+     * @return Cpuestos the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = OfertasLaborales::findOne($id)) !== null) {
+        if (($model = Cpuestos::findOne($id)) !== null) {
             return $model;
         }
 
