@@ -8,6 +8,8 @@ use backend\models\search\CpuestosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * CpuestosController implements the CRUD actions for Cpuestos model.
