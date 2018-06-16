@@ -58,7 +58,21 @@ AppAsset::register($this);
 
         ];
     } elseif(\common\models\User::isUserReclutador(Yii::$app->user->identity->id)) {
+        $menuItems= [
+            ['label' => 'Catalogos', 'items'=> array(
+                ['label' => 'Profesiones', 'url' => ['/cprofesiones/index']],
+                ['label' => 'Idiomas', 'url' => ['/cidiomas/index']],
+                ['label' => 'Puestos', 'url' => ['/cpuestos/index']],
 
+            )],
+            ['label' => 'Personal', 'items'=> array(
+                ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']],
+                //['label'=> 'Cambia Contraseña', 'url'=> ['/site/cambiaclave']],
+            )],
+
+        ];
 
 
 

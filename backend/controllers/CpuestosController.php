@@ -20,6 +20,22 @@ class CpuestosController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un vendedor
+                            return \common\models\User::isUserAdmin(Yii::$app->user->identity->id) ||
+                                \common\models\User::isUserReclutador(Yii::$app->user->identity->id) ;
+                        },
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

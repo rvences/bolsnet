@@ -32,7 +32,8 @@ class CidiomasController extends Controller
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
                             //Llamada al método que comprueba si es un vendedor
-                            return \common\models\User::isUserAdmin(Yii::$app->user->identity->id)  ;
+                            return \common\models\User::isUserAdmin(Yii::$app->user->identity->id) ||
+                                \common\models\User::isUserReclutador(Yii::$app->user->identity->id) ;
                         },
                     ],
                 ],
