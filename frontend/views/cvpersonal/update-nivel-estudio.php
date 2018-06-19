@@ -9,7 +9,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Estudios Académicos'];
 $this->params['breadcrumbs'][] = 'Actualizando';
 ?>
 
-
+<?php /*
+echo "<pre>";
+print_r($model);
+echo "</pre>"; */
+?>
 <div class="row">
     <div class="col-md-3">
         <?= $this->render('_menuizq', [ 'estado' => $estado]) ?>

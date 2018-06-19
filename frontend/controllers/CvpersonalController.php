@@ -151,28 +151,39 @@ class CvpersonalController extends Controller
     {
         $id = Cvpersonal::find('id')->where(['user_id' => Yii::$app->user->id])->one();
 
-        $model = $this->findModel($id);
-        $modelNE = $model->cvnivelestudios;
+        $model = $this->findModel($id->id);
+/*
+        echo "ID Cvpersonal";
+        echo "<pre>";
+        print_r($id);
+        echo "</pre>";
+
+
+        echo Yii::$app->user->id . "AAAA Cvpersonal";
+        echo "<pre>";
+        print_r($model);
+        echo "</pre>"; exit;*/
+        $modelsNE = $model->cvnivelestudios;
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $oldIDs = ArrayHelper::map($modelNE, 'id', 'id');
-            $modelNE = Model::createMultiple(Cvnivelestudio::classname(), $modelNE);
-            Model::loadMultiple($modelNE, Yii::$app->request->post());
-            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelNE, 'id', 'id')));
+            $oldIDs = ArrayHelper::map($modelsNE, 'id', 'id');
+            $modelsNE = Model::createMultiple(Cvnivelestudio::classname(), $modelsNE);
+            Model::loadMultiple($modelsNE, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsNE, 'id', 'id')));
 
             // ajax validation
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ArrayHelper::merge(
-                    ActiveForm::validateMultiple($modelNE),
+                    ActiveForm::validateMultiple($modelsNE),
                     ActiveForm::validate($model)
                 );
             }
 
             // validate all models
             $valid = $model->validate();
-            $valid = Model::validateMultiple($modelNE) && $valid;
+            $valid = Model::validateMultiple($modelsNE) && $valid;
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
@@ -181,9 +192,9 @@ class CvpersonalController extends Controller
                         if (! empty($deletedIDs)) {
                             Cvnivelestudio::deleteAll(['id' => $deletedIDs]);
                         }
-                        foreach ($modelNE as $modelAddress) {
-                            $modelAddress->cvpersonal_id = $model->id;
-                            if (! ($flag = $modelAddress->save(false))) {
+                        foreach ($modelsNE as $modelNE) {
+                            $modelNE->cvpersonal_id = $model->id;
+                            if (! ($flag = $modelNE->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
@@ -211,7 +222,7 @@ class CvpersonalController extends Controller
     public function actionUpdateExperiencia()
     {
         $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
-        $modelPersonal = $this->findModel($id);
+        $modelPersonal = $this->findModel($id->id);
         $modelsExperiencia = $modelPersonal->cvexperiencias;
 
         if ($modelPersonal->load(Yii::$app->request->post())) {
@@ -270,7 +281,7 @@ class CvpersonalController extends Controller
     public function actionUpdateCursos()
     {
         $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
-        $modelPersonal = $this->findModel($id);
+        $modelPersonal = $this->findModel($id->id);
         $modelsCurso = $modelPersonal->cvcursos;
 
         if ($modelPersonal->load(Yii::$app->request->post())) {
@@ -329,7 +340,7 @@ class CvpersonalController extends Controller
     public function actionUpdateIdiomas()
     {
         $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
-        $modelPersonal = $this->findModel($id);
+        $modelPersonal = $this->findModel($id->id);
         $modelsIdioma = $modelPersonal->cvidiomas;
 
         if ($modelPersonal->load(Yii::$app->request->post())) {
@@ -389,7 +400,7 @@ class CvpersonalController extends Controller
     public function actionUpdatePuestos()
     {
         $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
-        $modelPersonal = $this->findModel($id);
+        $modelPersonal = $this->findModel($id->id);
         $modelsPuesto = $modelPersonal->cvpuestos;
 
         if ($modelPersonal->load(Yii::$app->request->post())) {
