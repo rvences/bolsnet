@@ -116,7 +116,7 @@ $this->params['breadcrumbs'][] = 'Actualizando';
         <?php DynamicFormWidget::end(); ?>
 
         <div class="form-group">
-            <?= Html::submitButton($modelCurso->isNewRecord ? 'Nuevo' : 'Actualizar', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton($modelCurso->isNewRecord ? 'Guardar' : 'Guardar Actualización', ['class' => 'btn btn-primary']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

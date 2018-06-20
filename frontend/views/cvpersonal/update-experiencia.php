@@ -84,9 +84,12 @@ $this->params['breadcrumbs'][] = 'Actualizando';
                                         echo $form->field($modelExperiencia, "[{$i}]iniciopuesto")->widget(DateControl::classname(), [
                                             'type'=>DateControl::FORMAT_DATE,
                                             'ajaxConversion'=>false,
+                                            'displayFormat' => 'php:m-Y',
                                             'widgetOptions' => [
                                                 'pluginOptions' => [
-                                                    'autoclose' => true
+                                                    'autoclose' => true,
+                                                    'startView'=>'year',
+                                                    'minViewMode'=>'months',
                                                 ]
                                             ]
                                         ]);
@@ -97,12 +100,22 @@ $this->params['breadcrumbs'][] = 'Actualizando';
                                         echo $form->field($modelExperiencia, "[{$i}]finpuesto")->widget(DateControl::classname(), [
                                             'type'=>DateControl::FORMAT_DATE,
                                             'ajaxConversion'=>false,
+                                            'displayFormat' => 'php:m-Y',
                                             'widgetOptions' => [
                                                 'pluginOptions' => [
-                                                    'autoclose' => true
+                                                    'autoclose' => true,
+                                                    'startView'=>'year',
+                                                    'minViewMode'=>'months',
                                                 ]
                                             ]
                                         ]);
+
+
+
+
+
+
+
                                         ?>
                                     </div>
                                     <div class="col-sm-4">
@@ -122,7 +135,7 @@ $this->params['breadcrumbs'][] = 'Actualizando';
         <?php DynamicFormWidget::end(); ?>
 
         <div class="form-group">
-            <?= Html::submitButton($modelExperiencia->isNewRecord ? 'Nuevo' : 'Actualizar', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton($modelExperiencia->isNewRecord ? 'Guardar' : 'Guardar Actualización', ['class' => 'btn btn-primary']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

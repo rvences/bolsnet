@@ -202,7 +202,7 @@ class CvpersonalController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['update', 'id' => $model->id]);
+                        return $this->redirect(['update-nivel-estudio', 'id' => $model->id]);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -212,7 +212,7 @@ class CvpersonalController extends Controller
 
         return $this->render('update-nivel-estudio', [
             'model' => $model,
-            'modelsNE' => (empty($modelNE)) ? [new Cvnivelestudio()] : $modelNE,
+            'modelsNE' => (empty($modelsNE)) ? [new Cvnivelestudio()] : $modelsNE,
             'estado' => $model->estadoBolsa(),
 
 
@@ -262,7 +262,7 @@ class CvpersonalController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['update', 'id' => $modelPersonal->id]);
+                        return $this->redirect(['cvpersonal/update-experiencia', 'id' => $modelPersonal->id]);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -280,7 +280,7 @@ class CvpersonalController extends Controller
 
     public function actionUpdateCursos()
     {
-        $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
+        $id = Cvpersonal::find('id')->where(['user_id' => Yii::$app->user->id])->one();
         $modelPersonal = $this->findModel($id->id);
         $modelsCurso = $modelPersonal->cvcursos;
 
@@ -321,7 +321,7 @@ class CvpersonalController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['update', 'id' => $modelPersonal->id]);
+                        return $this->redirect(['update-cursos', 'id' => $modelPersonal->id]);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -339,7 +339,7 @@ class CvpersonalController extends Controller
 
     public function actionUpdateIdiomas()
     {
-        $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
+        $id = Cvpersonal::find('id')->where(['user_id' => Yii::$app->user->id])->one();
         $modelPersonal = $this->findModel($id->id);
         $modelsIdioma = $modelPersonal->cvidiomas;
 
@@ -380,7 +380,7 @@ class CvpersonalController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['update', 'id' => $modelPersonal->id]);
+                        return $this->redirect(['update-idiomas', 'id' => $modelPersonal->id]);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -440,7 +440,7 @@ class CvpersonalController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['update', 'id' => $modelPersonal->id]);
+                        return $this->redirect(['cvpersonal/update-puestos', 'id' => $modelPersonal->id]);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
