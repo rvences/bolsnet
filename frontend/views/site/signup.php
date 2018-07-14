@@ -16,7 +16,7 @@ $this->title = 'Registrate en la Bolsa de Trabajo';
 
             <h2>Crea una nueva cuenta:</h2>
 
-            <p>Estas a un paso para poder formar parte de los aspirantes a la bolsa de trabajo.</p>
+            <p>Estás a un paso para poder formar parte de los aspirantes a la bolsa de trabajo.</p>
 
             <p>Registra la información que se te solicita.</p>
 
@@ -27,14 +27,14 @@ $this->title = 'Registrate en la Bolsa de Trabajo';
 
 
         <div class="col-lg-5">
-            <h2>Registrarte</h2>
+            <h2>Regístrate</h2>
 
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'placeholder' => 'Correo Electrónico']) ?>
 
-            <?= $form->field($model, 'email') ?>
+            <?= $form->field($model, 'email')->textInput(['placeholder' => 'Repite tu Correo Electrónico']) ?>
 
             <?= $form->field($model, 'password')->passwordInput() ?>
 

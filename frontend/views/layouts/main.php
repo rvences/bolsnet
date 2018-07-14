@@ -47,7 +47,7 @@ AppAsset::register($this);
         ['label' => 'Inicio', 'url' => ['/site/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Registrate', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Regístrate', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Accede', 'url' => ['/site/login']];
     } else {
         $menuItems[] = ['label' => 'Datos Personales', 'url'=>['/cvpersonal/index']];

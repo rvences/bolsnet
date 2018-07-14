@@ -17,11 +17,11 @@ $this->title = 'Bolsa Trabajo';
                 <img class="img-responsive" src="images/logo-armas.png">
                 <h1>Bolsnet</h1>
 
-                <p class="lead">Es un espacio creado para cualquier persona interesada en colaborar con el
+                <p class="lead">Es un espacio creado para toda persona interesada en colaborar con el
                     Ayuntamiento de Xalapa, para que cuando contemos con alguna vacante tengan la posibilidad de
                     participar en el proceso de selección.
                     </p>
-                <p class="lead">Aquí puedes realizar el registro y actualización de su historia de vida</p>
+                <p class="lead">Aquí puedes realizar el registro y actualización de su trayectoria laboral.</p>
 
                 <p>Si es tu primera vez, registrate <?php echo Html::a('aquí.', ['/site/signup']); ?></p>
 

@@ -14,12 +14,9 @@ $this->title = 'Bolsnet Xalapa';
             <h2>Estimado usuario:</h2>
 
             <p>Bolsnet es un espacio creado para aspirantes en busca de empleo, dentro del Ayuntamiento de Xalapa,
-                el registro es gratuito y en este apartado podrán consultar las vacantes de empleo así como los requisitos y perfil necesario.</p>
+                el registro es gratuito.</p>
 
-            <p>Para poder consultar las vacantes debes estar registrado.</p>
             <p>Recuerda que este servicio es gratuito.</p>
-
-            <p><a class="btn btn-lg btn-success" href="">Ver vacantes</a></p>
 
         </div>
 

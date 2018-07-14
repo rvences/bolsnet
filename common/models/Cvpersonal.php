@@ -33,6 +33,7 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property Cvarchivos[] $cvarchivos
  * @property Cvcursos[] $cvcursos
  * @property Cvexperiencia[] $cvexperiencias
  * @property Cvhabilidades[] $cvhabilidades
@@ -62,7 +63,8 @@ class Cvpersonal extends \yii\db\ActiveRecord
             [['nombre', 'apaterno', 'amaterno', 'tel_movil', 'correo'], 'required'],
             [['estadocivil_id', 'entfed_id'], 'integer'],
             [['user_id', 'fnac', 'created_at', 'updated_at'], 'safe'],
-            [['nombre', 'apaterno', 'amaterno', 'correo'], 'string', 'max' => 30],
+            [['nombre', 'apaterno', 'amaterno'], 'string', 'max' => 30],
+            [['correo'], 'string', 'max' => 100],
             [['rfc'], 'string', 'max' => 13],
             [['curp'], 'string', 'max' => 18],
             [['sexo'], 'string', 'max' => 1],
@@ -73,7 +75,7 @@ class Cvpersonal extends \yii\db\ActiveRecord
             [['entfed_id'], 'exist', 'skipOnError' => true, 'targetClass' => Centfeds::className(), 'targetAttribute' => ['entfed_id' => 'id']],
             [['estadocivil_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cestadocivil::className(), 'targetAttribute' => ['estadocivil_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-
+            ['correo', 'email'],
             [['nombre', 'apaterno', 'amaterno', 'calle', 'numero', 'entrecalle', 'colonia', 'municipio'], 'filter', 'filter' => 'strtoupper'],
         ];
     }
@@ -120,6 +122,13 @@ class Cvpersonal extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCvarchivos()
+    {
+        return $this->hasMany(Cvarchivos::className(), ['cvpersonal_id' => 'id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -208,6 +217,22 @@ class Cvpersonal extends \yii\db\ActiveRecord
 
     public  function estadoBolsa() {
 
+        $cvpersonal = Cvpersonal::find()->select(['id', 'user_id'])->where(['user_id'=>Yii::$app->user->id])->one();
+
+        if(Cvidiomas::find()->where(['cvpersonal_id'=>$cvpersonal->id])->exists()) {return 6;}
+        elseif(Cvcursos::find()->where(['cvpersonal_id'=>$cvpersonal->id])->exists()) {return 5;}
+        elseif(Cvpuestos::find()->where(['cvpersonal_id'=>$cvpersonal->id])->exists()) {return 4;}
+        elseif(Cvexperiencia::find()->where(['cvpersonal_id'=>$cvpersonal->id])->exists()) {return 3;}
+        elseif(Cvnivelestudio::find()->where(['cvpersonal_id'=>$cvpersonal->id])->exists()) {return 2;}
+        //elseif(Cvpersonal::find()->where(['user_id'=>Yii::$app->user->id])->exists()) {return 1;}
+        elseif ($cvpersonal->user_id == Yii::$app->user->id) { return 1;}
+
+
+
+
+        /*
+        $valor = Cvpersonal::findOne();
+
         if(Cvidiomas::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 6;}
         elseif(Cvcursos::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 5;}
         elseif(Cvpuestos::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 4;}
@@ -215,7 +240,7 @@ class Cvpersonal extends \yii\db\ActiveRecord
         elseif(Cvnivelestudio::find()->where(['cvpersonal_id'=>Yii::$app->user->id])->exists()) {return 2;}
         elseif(Cvpersonal::find()->where(['user_id'=>Yii::$app->user->id])->exists()) {return 1;}
 
-
+*/
         /*
         if ( $this->getCvnivelestudios(Yii::$app->user->id)) {return 1;}
         elseif ( $this->getCvexperiencias(Yii::$app->user->id)) {return 2;}

@@ -22,6 +22,7 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
+            ['username', 'email'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este usuario ya se encuentra registrado.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
@@ -31,6 +32,7 @@ class SignupForm extends Model
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Ya existe esta cuenta de correo electrónico.'],
 
+            ['email', 'compare', 'compareAttribute' => 'username', 'message' => 'El nombre de usuario y correo electrónico deben ser iguales'],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
         ];
