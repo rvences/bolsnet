@@ -42,7 +42,14 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } elseif(\common\models\User::isUserAdmin(Yii::$app->user->identity->id)) {
         $menuItems= [
-            ['label' => 'Oferta Laboral', 'url' => ['/ofertas-laborales/index']],
+            //['label' => 'Oferta Laboral', 'url' => ['/ofertas-laborales/index']],
+            ['label' => 'Filtros', 'items'=> array(
+                ['label' => 'Personal', 'url' => ['/cvpersonal/index']],
+                ['label' => 'Estudios', 'url' => ['/cvnivelestudio/index']],
+
+            )],
+
+
             ['label' => 'Catalogos', 'items'=> array(
                 ['label' => 'Profesiones', 'url' => ['/cprofesiones/index']],
                 ['label' => 'Idiomas', 'url' => ['/cidiomas/index']],
@@ -59,6 +66,14 @@ AppAsset::register($this);
         ];
     } elseif(\common\models\User::isUserReclutador(Yii::$app->user->identity->id)) {
         $menuItems= [
+
+            ['label' => 'Filtros', 'items'=> array(
+                ['label' => 'Personal', 'url' => ['/cvpersonal/index']],
+                ['label' => 'Estudios', 'url' => ['/cvnivelestudio/index']],
+
+            )],
+
+
             ['label' => 'Catalogos', 'items'=> array(
                 ['label' => 'Profesiones', 'url' => ['/cprofesiones/index']],
                 ['label' => 'Idiomas', 'url' => ['/cidiomas/index']],

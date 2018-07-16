@@ -10,6 +10,6 @@ use yii\helpers\Html;
     <li><?php echo ($estado > 3) ? Html::a('Cursos', ['cvpersonal/update-cursos']) : "Cursos" ; ?></li>
     <li><?php echo ($estado > 4) ? Html::a('Idiomas', ['cvpersonal/update-idiomas']) : "Idiomas" ; ?></li>
 
-    <li><?php echo ($estado > 0) ? Html::a('Documentos', ['cvpersonal/update-archivos']) : "Documentos" ; ?></li>
+<?php //    <li><?php echo ($estado > 0) ? Html::a('Documentos', ['cvpersonal/update-archivos']) : "Documentos" ; ?></li>
 
 </ul>

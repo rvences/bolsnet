@@ -1363,6 +1363,17 @@ a.text-danger:hover,
 a.text-danger:focus {
     color: #953b39;
 }
+
+.bg-light {
+    background-color: #ffffff;
+    padding: 0.5em 0;
+}
+.bg-dark {
+    background-color: #f2f2f2;
+    padding: 0.5em 0;
+
+}
+
 .bg-primary {
     color: #fff;
     background-color: #ac3931;

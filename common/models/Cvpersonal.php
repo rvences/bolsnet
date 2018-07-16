@@ -60,7 +60,7 @@ class Cvpersonal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'apaterno', 'amaterno', 'tel_movil', 'correo'], 'required'],
+            [['nombre', 'apaterno', 'amaterno', 'tel_movil', 'correo', 'sexo', 'estadocivil_id', 'entfed_id'], 'required'],
             [['estadocivil_id', 'entfed_id'], 'integer'],
             [['user_id', 'fnac', 'created_at', 'updated_at'], 'safe'],
             [['nombre', 'apaterno', 'amaterno'], 'string', 'max' => 30],
@@ -119,6 +119,10 @@ class Cvpersonal extends \yii\db\ActiveRecord
             'F' => 'Femenino',
             'H' => 'Masculino',
         );
+    }
+
+    public  function getNombreCompleto() {
+        return $this->nombre . ' ' . $this->apaterno . ' ' . $this->amaterno;
     }
 
 
