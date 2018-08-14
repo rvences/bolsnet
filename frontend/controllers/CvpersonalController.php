@@ -10,6 +10,7 @@ use common\models\Cvexperiencia;
 use common\models\Cvpuestos;
 use Yii;
 use common\models\Cvpersonal;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,7 +38,7 @@ class CvpersonalController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'delete', 'update-archivos', 'update-nivel-estudio', 'update-experiencia', 'update-puestos', 'update-cursos', 'update-idiomas'],
+                        //'actions' => ['index', 'create', 'update', 'delete', 'update-archivos', 'update-nivel-estudio', 'update-experiencia', 'update-puestos', 'update-cursos', 'update-idiomas'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -490,99 +491,60 @@ class CvpersonalController extends Controller
         ]);
     }
 
+    public function actionCreateArchivos() {
+        $id = Cvpersonal::find()->where(['user_id' => Yii::$app->user->id])->one();
+        $modelPersonal = $this->findModel($id->id);
 
+        $archivos = new ActiveDataProvider([
+            'query' => Cvarchivos::find()->where(['cvpersonal_id' => Yii::$app->user->id])->orderBy('id DESC'),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
 
-
-    public function actionCreateArchivos()
-    {
         $model = new Cvarchivos();
-
         if ($model->load(Yii::$app->request->post())) {
-            // process uploaded image file instance
-            $image = $model->uploadImage();
+            $model->image = UploadedFile::getInstances($model, 'image');
+            foreach ($model->image as $i => $image) {
+                $model = new Cvarchivos();
+                $model->cvpersonal_id = $id->id;
+                $model->path = Yii::$app->basePath . '/web/uploads/';
+                $model->filename = $image->name;
+                $image_info = explode(".", $image->name);
+                $ext = end($image_info);
+                $model->archivo = Yii::$app->security->generateRandomString().".{$ext}";
+                $path = $model->path . $model->archivo;
+                $model->save(false);
+                $image->saveAs($path);
+            }
 
-            if ($model->save()) {
-                // upload only if valid uploaded file instance found
-                if ($image !== false) {
-                    $path = $model->getImageFile();
-                    $image->saveAs($path);
-                }
-                return $this->redirect(['cvpersonal/update-archivos', 'id'=>$model->id]);
-            } else {
-                // error in saving model
+            if ($model->save(false)) {
+                return $this->redirect(['cvpersonal/create-archivos', 'id' => $model->id]);
+            }  else {
+                var_dump ($model->getErrors()); die();
             }
         }
-        return $this->render('cvpersonal/update-archivos', [
-            'model'=>$model,
+        return $this->render('create-archivos', [
+            'modelPersonal' => $modelPersonal,
+            'model' => $model,
+            'archivos' => $archivos,
+            'estado' => $modelPersonal->estadoBolsa(),
+
         ]);
+
     }
 
+    public function actionDeleteArchivos($id)
+    {
 
-    public function actionUpdateArchivos() {
-        $id = Cvpersonal::find('id')->where(['user_id' => Yii::$app->user->id])->one();
-        $model = Cvarchivos::find()->where(['cvpersonal_id' => $id->id])->one();
+        $model = Cvarchivos::find()->where(['id' => $id])->one();
 
-        $oldFile = $model->getImageFile();
-        $oldAvatar = $model->image;
-        $oldFileName = $model->filename;
-
-
-        if ($model->load(Yii::$app->request->post())) {
-            // get the uploaded file instance. for multiple file uploads
-            // the following data will return an array
-            $image = $model->uploadImage();
-
-            // revert back if no valid file instance uploaded
-            if ($image === false) {
-                $model->image = $oldAvatar;
-                $model->filename = $oldFileName;
-            }
-
-            if ($model->save()) {
-                // upload only if valid uploaded file instance found
-                if ($image !== false && unlink($oldFile)) { // delete old and overwrite
-                    $path = $model->getImageFile();
-                    $image->saveAs($path);
-                }
-                return $this->redirect(['cvpersonal/update-archivos', 'id' => $model->id]);
-            } else {
-                // error in saving model
+        if ($model->delete()) {
+            if (!$model->deleteImage()) {
+                Yii::$app->session->setFlash('error', 'Error borrando archivo');
             }
         }
-        return $this->render('update-archivos', [
-            'model'=>(empty($model)) ? [new Cvarchivos()] : $model,
-        ]);
-/*
 
-            // store the source file name
-            $model->filename = $image->name;
-
-            $arreglo =  explode(".", $image->name);
-            $ext = end($arreglo);
-
-            // generate a unique file name
-            $model->image = Yii::$app->security->generateRandomString().".{$ext}";
-
-            // the path to save file, you can set an uploadPath
-            // in Yii::$app->params (as used in example below)
-            $model->path = Yii::$app->basePath . '/uploads/'. $model->image;
-
-            if($model->save()){
-                $image->saveAs($model->path);
-                //return $this->redirect(['view', 'id'=>$model->_id]);
-            } else {
-                // error in saving model
-            }
-        }
-        return $this->render('update-archivos', [
-            'model'=>$model,
-        ]);*/
+        return $this->redirect(['cvpersonal/create-archivos']);
     }
-
-
-
-
-
-
-
 }

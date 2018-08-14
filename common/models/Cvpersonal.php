@@ -76,7 +76,7 @@ class Cvpersonal extends \yii\db\ActiveRecord
             [['estadocivil_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cestadocivil::className(), 'targetAttribute' => ['estadocivil_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['correo', 'email'],
-            [['nombre', 'apaterno', 'amaterno', 'calle', 'numero', 'entrecalle', 'colonia', 'municipio'], 'filter', 'filter' => 'strtoupper'],
+            [['nombre', 'apaterno', 'amaterno', 'calle', 'numero', 'entrecalle', 'colonia', 'municipio', 'rfc', 'curp'], 'filter', 'filter' => 'strtoupper'],
         ];
     }
 

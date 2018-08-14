@@ -14,13 +14,13 @@ use yii\helpers\Url;
  * @property int $cvpersonal_id
  * @property string $path
  * @property string $filename
- * @property string $image
+ * @property string $archivo
  *
  * @property Cvpersonal $cvpersonal
  */
 class Cvarchivos extends \yii\db\ActiveRecord
 {
-    public $image;
+    public $imagen;
     /**
      * {@inheritdoc}
      */
@@ -32,17 +32,30 @@ class Cvarchivos extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    //public $image;
+    public $image;
 
     public function rules()
     {
+        /*
+         *
+         * int $id unique person identifier
+         * string $name person / user name                  cvpersonal_id
+         * array $archivo generated filename on server       image
+         * string $filename source filename from client     filename
+         *
+         * */
+
         return [
             [['cvpersonal_id'], 'integer'],
-            [['path', 'filename', 'image'], 'string', 'max' => 255],
+            [['path', 'filename', 'archivo'], 'string', 'max' => 255],
             [['cvpersonal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cvpersonal::className(), 'targetAttribute' => ['cvpersonal_id' => 'id']],
 
-            [['image'], 'safe'],
-            [['image'], 'file', 'extensions'=>'jpg, gif, png'],
+            //[['image'], 'file', 'maxFiles'=>'3'],
+            //[['imagen'], 'file', 'maxSize'=>'1000000'],
+//            [['image'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 3],
+
+            [['image','path', 'filename', 'archivo'], 'safe'],
+            //[['image'], 'file', 'extensions'=>'jpg, gif, png'],
         ];
     }
 
@@ -54,9 +67,9 @@ class Cvarchivos extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'cvpersonal_id' => 'Cvpersonal ID',
-            'path' => 'Path',
-            'filename' => 'Filename',
-            'image' => 'Image',
+            'path' => 'Ruta',
+            'filename' => 'Nombre del Archivo',
+            'archivo' => 'Archivo Digital',
         ];
     }
 
@@ -68,42 +81,8 @@ class Cvarchivos extends \yii\db\ActiveRecord
         return $this->hasOne(Cvpersonal::className(), ['id' => 'cvpersonal_id']);
     }
 
-    /**
-     * Obtiene la ruta exacta a la imagen
-     * @return null|string
-     */
     public function getImageFile() {
-        return isset($this->image) ? Yii::$app->basePath . '/web/uploads/' . $this->image : null;
-    }
-
-    public function getImageUrl() {
-
-
-        // Si no hay imagen en la BD, mostrar una temporal
-        $imagen = isset($this->path) ? $this->image : 'imagen_defecto.jpg';
-
-
-        return Url::to('@web/', true). '/uploads/' . $imagen;
-    }
-
-    public function uploadImage() {
-        $images = UploadedFile::getInstance($this, 'image');
-        // Si no existe imagen se cancela la subida
-        if (empty($image)) {
-            return false;
-        }
-
-        // Nombre del archivo fuente
-        $this->filename = $image->name;
-
-        $arreglo =  explode(".", $image->name);
-        $ext = end($arreglo);
-
-        // Genera un archivo único
-        $this->image = Yii::$app->security->generateRandomString().".{$ext}";
-
-        $this->path= Yii::$app->security->generateRandomString().".{$ext}";
-        return $image;
+        return isset($this->archivo) ? Yii::$app->basePath . '/web/uploads/' . $this->archivo : null;
     }
 
     public function deleteImage() {
@@ -121,7 +100,8 @@ class Cvarchivos extends \yii\db\ActiveRecord
 
         // Si se borro el archivo del servidor se eliminan los atributos en la BD
         $this->path = null;
-        $this->image = null;
+        $this->filename = null;
+        $this->archivo = null;
 
         return true;
     }
