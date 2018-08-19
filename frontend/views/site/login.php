@@ -13,7 +13,7 @@ $this->title = 'Bolsnet Xalapa';
 
             <h2>Estimado usuario:</h2>
 
-            <p>Bolsnet es un espacio creado para aspirantes en busca de empleo, dentro del Ayuntamiento de Xalapa,
+            <p>Bolsnet es un espacio creado para aspirantes en busca de empleo, dentro del Ayuntamiento de Xalapa;
                 el registro es gratuito.</p>
 
             <p>Recuerda que este servicio es gratuito.</p>

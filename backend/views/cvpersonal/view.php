@@ -2,11 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use kartik\file\FileInput;
 use kartik\form\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Cvpersonal;
 use common\models\Cestadocivil;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model common\models\Cvpersonal */
 
@@ -28,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row bg-light">
         <div class="col-md-1"><strong>Sexo: </strong> <?=$model->sexo; ?></div>
         <div class="col-md-3"><strong>Fecha Nacimiento: </strong> <?=$model->fnac; ?></div>
-        <div class="col-md-4"><strong>Estado Civil: </strong> <?=$model->estadocivil->estadocivil; ?></div>
+        <div class="col-md-4"><strong>Estado Civil: </strong> <?=($model->estadocivil_id > 0 ? $model->estadocivil->estadocivil : ''); ?></div>
         <div class="col-md-4"><strong>Correo: </strong> <?=$model->correo; ?></div>
     </div>
     <div class="row bg-dark">
@@ -41,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12"><strong>Dirección: </strong>
             <?=$model->calle; ?> No: <?=$model->numero; ?> Entre <?=$model->entrecalle?>
             Colonia: <?=$model->colonia ?> CP: <?=$model->cp;?>
-            Municipio: <?=$model->municipio; ?> Estado: <?= $model->entfed->entidad; ?>
+            Municipio: <?=$model->municipio; ?> Estado: <?= ($model->entfed_id > 0 ? $model->entfed->entidad : '' ); ?>
 
         </div>
 
@@ -108,5 +109,32 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     <?php } ?>
 
+    <h3>Documentos</h3>
+    <?php
+    $allimage = array();
+    foreach ($archivos as $index => $archivo) {
+        $allimage[] = 'http://bolsnet.localhost/uploads/'.$archivo->archivo;
+        $imagesOptions[] = ['caption' => $archivo->filename, 'downloadUrl'=>'http://bolsnet.localhost/uploads/'.$archivo->archivo];
+    }
+
+    if (!empty($allimage)) {
+        echo FileInput::widget([
+            'name' => 'documentos[]',
+            'pluginOptions' => [
+                'initialPreview'=>$allimage,
+                'initialPreviewAsData'=>true,
+                'showUpload' => false,
+                'initialPreviewConfig' => $imagesOptions,
+
+                //'overwriteInitial'=>false,
+
+            ]
+        ]);
+    } else {
+        echo "<p>No se han indicado archivos</p>";
+    }
+
+
+    ?>
 
 </div>

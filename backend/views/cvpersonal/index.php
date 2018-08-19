@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\CvpersonalSearch */
@@ -13,25 +15,46 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="cvpersonal-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-
+    
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
-            //'user_id',
             'nombre',
             'apaterno',
             'amaterno',
+
+'cvpuestos.id',
+
+
+
+
+/*
+            [
+                'label' => 'Groups',
+                'format' => 'ntext',
+                'attribute'=>'groupname',
+                'value' => function($model) {
+                    foreach ($model->cvpuestos as $group) {
+                        $groupNames[] = $group->puestos_id;
+                    }
+                    return implode("\n", $groupNames);
+                },
+            ],
+*/
+            //'id',
+            //'user_id',
+            //'nombre',
+            //'apaterno',
+            //'amaterno',
             //'rfc',
             //'curp',
             //'fnac',
             //'estadocivil_id',
-            'sexo',
+            //'sexo',
             //'tel_ofna',
             //'tel_ofna_ext',
             //'tel_movil',

@@ -41,12 +41,56 @@ class CvpersonalSearch extends Cvpersonal
      */
     public function search($params)
     {
+        //$query = Cvpersonal::find();
+
+        /*
+
+$customers = Customer::find()
+    ->select('customer.*')
+    ->leftJoin('order', '`order`.`customer_id` = `customer`.`id`')
+    ->where(['order.status' => Order::STATUS_ACTIVE])
+    ->with('orders')
+    ->all();
+*/
+
+        $query = Cvpersonal::find()
+            ->select('cvpersonal.*')
+            ->leftJoin('cvpuestos', 'cvpuestos.cvpersonal_id = cvpersonal.id')
+            ->with('cvpuestos')
+            ;
+
+
+        $query = Cvpersonal::find()->innerJoinWith('cvpuestos', true);
+
+
+
         $query = Cvpersonal::find();
+        $query->select([
+            '*',
+            'puestos_id' => 'cvpuestos.puestos_id'
+        ]);
+        $query->alias('cvpersonal');
+        $query->joinWith('cvpuestos cvpuestos');
+
+
+
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            //'sort' => ['attributes' => ['nombre', 'puestos_id']]
+
+            'sort' => [
+                'attributes' =>  [
+                    'puestos_id' => [
+                        'asc' => ['cvpuestos.puestos_id' => SORT_ASC],
+                        'desc' => ['cvpuestos.puestos_id' => SORT_DESC],
+                    ]
+                ]
+
+            ]
+
         ]);
 
         $this->load($params);
@@ -85,7 +129,16 @@ class CvpersonalSearch extends Cvpersonal
             ->andFilterWhere(['like', 'cp', $this->cp])
             ->andFilterWhere(['like', 'calle', $this->calle])
             ->andFilterWhere(['like', 'numero', $this->numero])
-            ->andFilterWhere(['like', 'entrecalle', $this->entrecalle]);
+            ->andFilterWhere(['like', 'entrecalle', $this->entrecalle])
+
+
+
+        ->andFilterWhere(['like', 'puestos_id', $this->cvpuestos])
+
+
+        ;
+
+
 
         return $dataProvider;
     }

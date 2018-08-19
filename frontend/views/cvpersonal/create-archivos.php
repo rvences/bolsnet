@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = 'Creando';
         <?php
         echo $form->field($model, 'image[]')->widget(FileInput::classname(), [
             'options' => ['accept' => 'image/*', 'multiple' => 'true'],
-            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],'showUpload' => false,],
+            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png', 'pdf'],'showUpload' => false,],
 
         ]);
         ?>

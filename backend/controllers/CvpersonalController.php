@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Cvarchivos;
 use common\models\Cvcursos;
 use common\models\Cvexperiencia;
 use common\models\Cvidiomas;
@@ -55,7 +56,12 @@ class CvpersonalController extends Controller
     {
         $searchModel = new CvpersonalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+/*
+        echo "<pre>";
+        print_r($dataProvider);
+        echo "</pre>";
+        exit;
+*/
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -75,6 +81,7 @@ class CvpersonalController extends Controller
         $modelPuestos = Cvpuestos::find()->where(['cvpersonal_id' => $id])->all();
         $modelCursos = Cvcursos::find()->where(['cvpersonal_id' => $id])->all();
         $modelIdiomas = Cvidiomas::find()->where(['cvpersonal_id' => $id])->all();
+        $modelArchivos = Cvarchivos::find()->select(['path', 'archivo', 'filename'])->where(['cvpersonal_id' => $id])->all();
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -83,6 +90,7 @@ class CvpersonalController extends Controller
             'puestos' => $modelPuestos,
             'cursos' => $modelCursos,
             'idiomas' => $modelIdiomas,
+            'archivos' => $modelArchivos
 
         ]);
     }
