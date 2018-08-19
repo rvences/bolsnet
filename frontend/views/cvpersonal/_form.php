@@ -21,7 +21,10 @@ use common\models\Cestadocivil;
         <?php $form = ActiveForm::begin(); ?>
         <div class="row">
             <div class="col-md-12">
-                <?= $form->field($model, 'correo', ['showLabels'=>false ])->textInput(['maxlength' => true, 'placeholder' => 'Correo Electrónico']); ?>
+                <?php
+                $model->correo = Yii::$app->user->identity->username;
+                ?>
+                <?= $form->field($model, 'correo', ['showLabels'=>false ])->textInput(['maxlength' => true, 'placeholder' => 'Correo Electrónico', 'readonly'=>true]); ?>
             </div>
         </div>
         <div class="row">
