@@ -14,6 +14,8 @@ use yii\helpers\Url;
 $this->title = 'CV de ' . $model->nombre . ' ' . $model->apaterno . ' ' . $model->amaterno;
 $this->params['breadcrumbs'][] = ['label' => 'CV Aspirantes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
 ?>
 <div class="cvpersonal-view">
 
@@ -113,8 +115,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $allimage = array();
     foreach ($archivos as $index => $archivo) {
-        $allimage[] = 'http://bolsnet.localhost/uploads/'.$archivo->archivo;
-        $imagesOptions[] = ['caption' => $archivo->filename, 'downloadUrl'=>'http://bolsnet.localhost/uploads/'.$archivo->archivo];
+        $allimage[] =  Url::base(true) . '/../uploads/'.$archivo->archivo;
+        $imagesOptions[] = ['caption' => $archivo->filename, 'downloadUrl'=>Url::base(true) . '/../uploads/'.$archivo->archivo];
     }
 
     if (!empty($allimage)) {
