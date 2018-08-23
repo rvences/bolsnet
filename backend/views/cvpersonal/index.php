@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
 use yii\bootstrap\Modal;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\CvpersonalSearch */
@@ -16,67 +17,102 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    
-    
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'nombre',
-            'apaterno',
-            'amaterno',
 
-'cvpuestos.id',
+    <?php
 
+    $gridColumns = [
 
-
-
-/*
-            [
-                'label' => 'Groups',
-                'format' => 'ntext',
-                'attribute'=>'groupname',
-                'value' => function($model) {
-                    foreach ($model->cvpuestos as $group) {
-                        $groupNames[] = $group->puestos_id;
-                    }
-                    return implode("\n", $groupNames);
-                },
-            ],
-*/
-            //'id',
-            //'user_id',
-            //'nombre',
-            //'apaterno',
-            //'amaterno',
-            //'rfc',
-            //'curp',
-            //'fnac',
-            //'estadocivil_id',
-            //'sexo',
-            //'tel_ofna',
-            //'tel_ofna_ext',
-            //'tel_movil',
-            //'tel_casa_lada',
-            //'tel_casa',
-            //'correo',
-            //'entfed_id',
-            //'municipio',
-            //'colonia',
-            //'cp',
-            //'calle',
-            //'numero',
-            //'entrecalle',
-            //'created_at',
-            //'updated_at',
-
-
-            [
-                    'class' => 'yii\grid\ActionColumn',
-            'template' => '{view} {update}',
-            ],
+        [
+            // Lista la cantidad de columnas
+            'class'=>'kartik\grid\SerialColumn',
+            'width'=>'25px', // 'width'=>'1%',
         ],
-    ]); ?>
+        [
+            'class' => 'kartik\grid\ActionColumn',
+            'template' => '{view}',
+            //'template' => '{update} &nbsp;&nbsp; {delete}',
+            'width'=>'25px',
+        ],
+
+        [
+            'class' => 'kartik\grid\EditableColumn',
+            'attribute' => 'seguimiento_id',
+            'label' => 'Seguimiento',
+            'value' => 'seguimiento.seguimiento',
+            'filterType'=>GridView::FILTER_SELECT2,
+            'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Cseguimiento::find()->asArray()->orderBy('seguimiento')->all(), 'id', 'seguimiento'),
+            'filterWidgetOptions'=>[
+                'pluginOptions'=>['allowClear'=>true],
+            ],
+            'filterInputOptions'=>['placeholder'=>'Seguimiento'],
+
+            'editableOptions' => function ($model, $key, $index, $widget) {
+                return [
+                    'asPopover' => false,
+                    'formOptions'=>['action'=>Url::to(['cvpersonal/change','id'=>$model->id])],
+                    'buttonsTemplate' => '{submit}',
+                    'showButtonLabels' => true,
+                    'size' => 'md',     // http://demos.krajee.com/popover-x#settings
+                    'inputType' => \kartik\editable\Editable::INPUT_SELECT2, // http://demos.krajee.com/editable
+                    'options' => [
+                        'data' => \yii\helpers\ArrayHelper::map(\common\models\Cseguimiento::find()->all(), 'id', 'seguimiento'),
+                    ]
+                ];
+            }
+        ],
+
+        [
+            'class' => 'kartik\grid\DataColumn',
+            'attribute' => 'buscar_nombre_completo',
+        ],
+
+        [
+            'class' => 'kartik\grid\DataColumn',
+            'attribute' => 'telefono',
+            'width'=>'140px', // 'width'=>'7%',
+            'value'=>function ($model, $key, $index, $widget) {
+                $telefono = '';
+                if ( $model->tel_ofna) {
+                    $telefono .= ' Oficina ' . $model->tel_ofna;
+                    if ($model->tel_ofna_ext) {
+                        $telefono .= ' Ext ' . $model->tel_ofna_ext;
+                    }
+                }
+                if ($model->tel_movil) {
+                    $telefono .= ' Celular ' . $model->tel_movil;
+                }
+
+                if ($model->tel_casa) {
+                    $telefono .= ' Casa ';
+                    if ($model->tel_casa_lada) {
+                        $telefono .= $model->tel_casa_lada;
+                    }
+                    $telefono .= $model->tel_casa;
+                }
+                return $telefono;
+            },
+
+        ],
+
+
+
+
+    ];
+
+    echo GridView::widget([
+        'summary' => "Mostrando <b>{begin} - {end}</b> de <b>{totalCount}</b> puestos solicitados",
+        'dataProvider'=> $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => $gridColumns,
+        'responsive'=>true,
+        'pjax' => true,
+        'pjaxSettings'=>[		//<== ketambahan ini
+            'neverTimeout'=>true,
+        ],
+        'hover'=>true
+    ]);
+    ?>
+
+
 </div>
 

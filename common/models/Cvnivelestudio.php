@@ -38,6 +38,9 @@ class Cvnivelestudio extends \yii\db\ActiveRecord
             [['cnivelestudio_id', 'cprofesion_id'], 'integer'],
             [['escuela'], 'string', 'max' => 100],
             [['cvpersonal_id'], 'safe'],
+
+            [['cnivelestudio_id', 'cprofesion_id'], 'required'],
+
             [['certificado', 'titulo', 'cedula'], 'string', 'max' => 1],
             [['cprofesion_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cprofesiones::className(), 'targetAttribute' => ['cprofesion_id' => 'id']],
             [['cnivelestudio_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cnivelestudios::className(), 'targetAttribute' => ['cnivelestudio_id' => 'id']],

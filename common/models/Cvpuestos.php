@@ -16,6 +16,10 @@ use Yii;
  */
 class Cvpuestos extends \yii\db\ActiveRecord
 {
+    public $buscar_nombre_completo;
+    public $user_id;
+    public $created_at;
+    public $seguimiento_id;
     /**
      * {@inheritdoc}
      */
@@ -45,6 +49,7 @@ class Cvpuestos extends \yii\db\ActiveRecord
             'id' => 'ID',
             'cvpersonal_id' => 'Cvpersonal ID',
             'puestos_id' => 'Puesto',
+            'buscar_nombre_completo' => 'Aspirante',
         ];
     }
 

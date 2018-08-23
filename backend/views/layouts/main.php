@@ -45,6 +45,7 @@ AppAsset::register($this);
             //['label' => 'Oferta Laboral', 'url' => ['/ofertas-laborales/index']],
             ['label' => 'Filtros', 'items'=> array(
                 ['label' => 'Personal', 'url' => ['/cvpersonal/index']],
+                ['label' => 'Puestos', 'url' => ['/cvpuestos/index']],
                 ['label' => 'Estudios', 'url' => ['/cvnivelestudio/index']],
 
             )],
@@ -54,6 +55,7 @@ AppAsset::register($this);
                 ['label' => 'Profesiones', 'url' => ['/cprofesiones/index']],
                 ['label' => 'Idiomas', 'url' => ['/cidiomas/index']],
                 ['label' => 'Puestos', 'url' => ['/cpuestos/index']],
+                ['label' => 'Seguimiento', 'url' => ['/cseguimiento/index']],
 
             )],
             ['label' => 'Personal', 'items'=> array(

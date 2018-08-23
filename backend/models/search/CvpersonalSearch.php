@@ -6,6 +6,8 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Cvpersonal;
+use yii\db\Expression;
+
 
 /**
  * CvpersonalSearch represents the model behind the search form of `common\models\Cvpersonal`.
@@ -18,8 +20,8 @@ class CvpersonalSearch extends Cvpersonal
     public function rules()
     {
         return [
-            [['id', 'user_id', 'estadocivil_id', 'entfed_id'], 'integer'],
-            [['nombre', 'apaterno', 'amaterno', 'rfc', 'curp', 'fnac', 'sexo', 'tel_ofna', 'tel_ofna_ext', 'tel_movil', 'tel_casa_lada', 'tel_casa', 'correo', 'municipio', 'colonia', 'cp', 'calle', 'numero', 'entrecalle', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'user_id', 'estadocivil_id', 'entfed_id', 'seguimiento_id'], 'integer'],
+            [['buscar_nombre_completo', 'nombre', 'apaterno', 'amaterno', 'rfc', 'curp', 'fnac', 'sexo', 'tel_ofna', 'tel_ofna_ext', 'tel_movil', 'tel_casa_lada', 'tel_casa', 'correo', 'municipio', 'colonia', 'cp', 'calle', 'numero', 'entrecalle', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,57 +43,32 @@ class CvpersonalSearch extends Cvpersonal
      */
     public function search($params)
     {
-        //$query = Cvpersonal::find();
 
-        /*
-
-$customers = Customer::find()
-    ->select('customer.*')
-    ->leftJoin('order', '`order`.`customer_id` = `customer`.`id`')
-    ->where(['order.status' => Order::STATUS_ACTIVE])
-    ->with('orders')
-    ->all();
-*/
-
-        $query = Cvpersonal::find()
-            ->select('cvpersonal.*')
-            ->leftJoin('cvpuestos', 'cvpuestos.cvpersonal_id = cvpersonal.id')
-            ->with('cvpuestos')
-            ;
-
-
-        $query = Cvpersonal::find()->innerJoinWith('cvpuestos', true);
-
-
+        $nombreCompleto = new Expression('CONCAT_WS(" ", nombre, apaterno, amaterno)');
 
         $query = Cvpersonal::find();
-        $query->select([
-            '*',
-            'puestos_id' => 'cvpuestos.puestos_id'
+
+        $query-> select([
+            'cvpersonal.*',
+            //'cvpuestos.cvpersonal_id', 'cvpuestos.puestos_id',
+            //  'cpuestos.*',
+            'buscar_nombre_completo' => $nombreCompleto,
+
         ]);
-        $query->alias('cvpersonal');
-        $query->joinWith('cvpuestos cvpuestos');
-
-
-
-
-        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            //'sort' => ['attributes' => ['nombre', 'puestos_id']]
-
             'sort' => [
                 'attributes' =>  [
-                    'puestos_id' => [
-                        'asc' => ['cvpuestos.puestos_id' => SORT_ASC],
-                        'desc' => ['cvpuestos.puestos_id' => SORT_DESC],
-                    ]
+                    'buscar_nombre_completo' => [
+                        'asc' => [(string)$nombreCompleto => SORT_ASC],
+                        'desc' => [(string)$nombreCompleto => SORT_DESC],
+                    ],
                 ]
-
             ]
-
         ]);
+
+
 
         $this->load($params);
 
@@ -110,6 +87,7 @@ $customers = Customer::find()
             'entfed_id' => $this->entfed_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'seguimiento_id' => $this->seguimiento_id,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
@@ -130,15 +108,10 @@ $customers = Customer::find()
             ->andFilterWhere(['like', 'calle', $this->calle])
             ->andFilterWhere(['like', 'numero', $this->numero])
             ->andFilterWhere(['like', 'entrecalle', $this->entrecalle])
-
-
-
-        ->andFilterWhere(['like', 'puestos_id', $this->cvpuestos])
+            ->andFilterWhere(['like', $nombreCompleto, $this->buscar_nombre_completo])
 
 
         ;
-
-
 
         return $dataProvider;
     }

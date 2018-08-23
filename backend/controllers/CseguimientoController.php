@@ -3,16 +3,17 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Cvnivelestudio;
-use backend\models\search\CvnivelestudioSearch;
+use common\models\Cseguimiento;
+use backend\models\search\CseguimientoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+
 /**
- * CvnivelestudioController implements the CRUD actions for Cvnivelestudio model.
+ * CseguimientoController implements the CRUD actions for Cseguimiento model.
  */
-class CvnivelestudioController extends Controller
+class CseguimientoController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -22,21 +23,15 @@ class CvnivelestudioController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                // Acciones para el Controlador
-                //'only' => ['index'],
                 'rules' => [
                     [
-                        // Establece que tiene permisos los vendedores
                         'allow' => true,
-                        // El usuario se le asignan permisos en las siguientes acciones
-                        'actions' => ['index', 'view', 'change'],
-                        // Todos los usuarios autenticados
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['@'],
-                        //Este método nos permite crear un filtro sobre la identidad del usuario
-                        //y así establecer si tiene permisos o no
                         'matchCallback' => function ($rule, $action) {
                             //Llamada al método que comprueba si es un vendedor
-                            return \common\models\User::isUserReclutador(Yii::$app->user->identity->id)  ;
+                            return \common\models\User::isUserAdmin(Yii::$app->user->identity->id) ||
+                                \common\models\User::isUserReclutador(Yii::$app->user->identity->id) ;
                         },
                     ],
                 ],
@@ -44,21 +39,21 @@ class CvnivelestudioController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
     }
 
     /**
-     * Lists all Cvnivelestudio models.
+     * Lists all Cseguimiento models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CvnivelestudioSearch();
+        $searchModel = new CseguimientoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-// http://bolsnet.localhost/backend/index.php?r=cvpersonal%2Fview&id=1
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -66,29 +61,26 @@ class CvnivelestudioController extends Controller
     }
 
     /**
-     * Displays a single Cvnivelestudio model.
+     * Displays a single Cseguimiento model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $user = Cvnivelestudio::find()->select('cvpersonal_id')->where(['id' => $id])->one();
-        return $this->redirect(['cvpersonal/view', 'id' => $user->cvpersonal_id]);
-        /*
         return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);*/
+        ]);
     }
 
     /**
-     * Creates a new Cvnivelestudio model.
+     * Creates a new Cseguimiento model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Cvnivelestudio();
+        $model = new Cseguimiento();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -100,7 +92,7 @@ class CvnivelestudioController extends Controller
     }
 
     /**
-     * Updates an existing Cvnivelestudio model.
+     * Updates an existing Cseguimiento model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -120,7 +112,7 @@ class CvnivelestudioController extends Controller
     }
 
     /**
-     * Deletes an existing Cvnivelestudio model.
+     * Deletes an existing Cseguimiento model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -134,15 +126,15 @@ class CvnivelestudioController extends Controller
     }
 
     /**
-     * Finds the Cvnivelestudio model based on its primary key value.
+     * Finds the Cseguimiento model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Cvnivelestudio the loaded model
+     * @return Cseguimiento the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Cvnivelestudio::findOne($id)) !== null) {
+        if (($model = Cseguimiento::findOne($id)) !== null) {
             return $model;
         }
 

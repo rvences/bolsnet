@@ -32,6 +32,7 @@ use Yii;
  * @property string $entrecalle
  * @property string $created_at
  * @property string $updated_at
+ * @property int $seguimiento_id
  *
  * @property Cvarchivos[] $cvarchivos
  * @property Cvcursos[] $cvcursos
@@ -41,11 +42,14 @@ use Yii;
  * @property Cvnivelestudio[] $cvnivelestudios
  * @property Centfeds $entfed
  * @property Cestadocivil $estadocivil
+ * @property Cseguimiento $seguimiento
  * @property User $user
  * @property Cvpuestos[] $cvpuestos
  */
 class Cvpersonal extends \yii\db\ActiveRecord
 {
+    public $buscar_nombre_completo;
+
     /**
      * {@inheritdoc}
      */
@@ -69,11 +73,12 @@ class Cvpersonal extends \yii\db\ActiveRecord
             [['curp'], 'string', 'max' => 18],
             [['sexo'], 'string', 'max' => 1],
             [['tel_casa_lada'], 'integer', 'max' => 999],
-            [['tel_ofna', 'tel_ofna_ext', 'tel_movil', 'tel_casa'], 'integer', 'max' => 9999999999],
+            [['tel_ofna', 'tel_ofna_ext', 'tel_movil', 'tel_casa', 'seguimiento_id'], 'integer', 'max' => 9999999999],
             [['municipio', 'colonia', 'calle', 'numero', 'entrecalle'], 'string', 'max' => 100],
             [['cp'], 'integer', 'max' => 99999],
             [['entfed_id'], 'exist', 'skipOnError' => true, 'targetClass' => Centfeds::className(), 'targetAttribute' => ['entfed_id' => 'id']],
             [['estadocivil_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cestadocivil::className(), 'targetAttribute' => ['estadocivil_id' => 'id']],
+            [['seguimiento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cseguimiento::className(), 'targetAttribute' => ['seguimiento_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['correo', 'email'],
             [['nombre', 'apaterno', 'amaterno', 'calle', 'numero', 'entrecalle', 'colonia', 'municipio', 'rfc', 'curp'], 'filter', 'filter' => 'strtoupper'],
@@ -111,6 +116,9 @@ class Cvpersonal extends \yii\db\ActiveRecord
             'entrecalle' => 'Entrecalle',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'buscar_nombre_completo' => 'Nombre',
+            'buscar_puestos_id' => 'Puesto solicitado',
+            'seguimiento_id' => 'Seguimiento'
         ];
     }
 
@@ -133,6 +141,7 @@ class Cvpersonal extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Cvarchivos::className(), ['cvpersonal_id' => 'id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -176,14 +185,6 @@ class Cvpersonal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCvpuestos()
-    {
-        return $this->hasMany(Cvpuestos::className(), ['cvpersonal_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getEntfed()
     {
         return $this->hasOne(Centfeds::className(), ['id' => 'entfed_id']);
@@ -200,9 +201,25 @@ class Cvpersonal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSeguimiento()
+    {
+        return $this->hasOne(Cseguimiento::className(), ['id' => 'seguimiento_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCvpuestos()
+    {
+        return $this->hasMany(Cvpuestos::className(), ['cvpersonal_id' => 'id']);
     }
 
     public function beforeSave($insert) {

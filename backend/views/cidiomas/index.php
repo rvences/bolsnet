@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\search\CidiomasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cat. Idiomas';
+$this->title = 'Catálogo de idiomas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cidiomas-index">
@@ -18,8 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Nuevo Idioma', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <h1>Es el catálogo de Idiomas para el apartado de Idiomas</h1>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

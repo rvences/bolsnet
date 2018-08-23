@@ -16,6 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
+
 /**
  * CvpersonalController implements the CRUD actions for Cvpersonal model.
  */
@@ -26,23 +27,32 @@ class CvpersonalController extends Controller
      */
     public function behaviors()
     {
-
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                // Acciones para el Controlador
+                //'only' => ['index'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
+                        // Establece que tiene permisos los vendedores
                         'allow' => true,
+                        // El usuario se le asignan permisos en las siguientes acciones
+                        'actions' => ['index', 'view', 'change'],
+                        // Todos los usuarios autenticados
                         'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un vendedor
+                            return \common\models\User::isUserReclutador(Yii::$app->user->identity->id)  ;
+                        },
                     ],
                 ],
             ],
-
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -56,17 +66,16 @@ class CvpersonalController extends Controller
     {
         $searchModel = new CvpersonalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-/*
-        echo "<pre>";
-        print_r($dataProvider);
-        echo "</pre>";
-        exit;
-*/
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+
+
+
+
 
     /**
      * Displays a single Cvpersonal model.
@@ -99,7 +108,7 @@ class CvpersonalController extends Controller
      * Creates a new Cvpersonal model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
-
+     */
     public function actionCreate()
     {
         $model = new Cvpersonal();
@@ -112,7 +121,38 @@ class CvpersonalController extends Controller
             'model' => $model,
         ]);
     }
-*/
+
+    public function actionChange($id)
+    {
+        if (isset($_POST['hasEditable'])) {
+            $modelo = $this->findModel($id);
+            // Usando el formato de respuesta de Yii  para codificar la salida como JSON
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            $actual = current($_POST['Cvpersonal']);
+            $post['Cvpersonal'] = $_POST['Cvpersonal'][$_POST['editableIndex']];
+
+            if ($modelo->load($post)) {
+                $exitoso = $modelo->save();
+                $errores = $modelo->errors;
+                $output = '';
+                $message = '';
+
+                if (isset($actual['seguimiento_id'])) {
+                    $output = Yii::$app->formatter->asText($modelo->seguimiento->seguimiento);
+                }
+
+                if (!$exitoso) {
+                    foreach ($errores as $error) {
+                        $message .= $error[0];
+                    }
+                }
+                return['output'=>$output, 'message'=>$message];
+            }
+
+        }
+    }
+
     /**
      * Updates an existing Cvpersonal model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -139,14 +179,14 @@ class CvpersonalController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
-
+     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
-*/
+
     /**
      * Finds the Cvpersonal model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

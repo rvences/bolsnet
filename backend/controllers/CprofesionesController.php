@@ -24,7 +24,6 @@ class CprofesionesController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
