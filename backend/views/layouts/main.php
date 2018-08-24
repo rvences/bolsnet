@@ -80,6 +80,8 @@ AppAsset::register($this);
                 ['label' => 'Profesiones', 'url' => ['/cprofesiones/index']],
                 ['label' => 'Idiomas', 'url' => ['/cidiomas/index']],
                 ['label' => 'Puestos', 'url' => ['/cpuestos/index']],
+                ['label' => 'Seguimiento', 'url' => ['/cseguimiento/index']],
+
 
             )],
             ['label' => 'Personal', 'items'=> array(
