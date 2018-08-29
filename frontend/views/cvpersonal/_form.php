@@ -116,7 +116,7 @@ use common\models\Cestadocivil;
             <div class="col-md-12">
                 <?php
                 $lista = ArrayHelper::map(\common\models\Centfeds::find()->asArray()->all(), 'id', 'entidad');
-                echo $form->field($model, 'entfed_id', ['showLabels'=>false])->dropDownList($lista, ['prompt' => '[ Selecciona ] ']); ?>
+                echo $form->field($model, 'entfed_id')->dropDownList($lista, ['prompt' => '[ Selecciona ] ']); ?>
             </div>
         </div>
 

@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = 'Creando';
         ?>
 
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar Actualización', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? 'Guardar' : 'Guardar Actualización', ['class' => 'btn btn-success']) ?>
         </div>
 
         <?= GridView::widget([

@@ -107,7 +107,7 @@ class Cvpersonal extends \yii\db\ActiveRecord
             'tel_casa_lada' => 'Lada',
             'tel_casa' => 'Tel Casa',
             'correo' => 'Correo',
-            'entfed_id' => 'Entfed ID',
+            'entfed_id' => 'Entidad Federativa',
             'municipio' => 'Municipio',
             'colonia' => 'Colonia',
             'cp' => 'Cp',

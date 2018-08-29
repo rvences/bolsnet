@@ -111,7 +111,7 @@ echo "</pre>"; */
         <?php DynamicFormWidget::end(); ?>
 
         <div class="form-group">
-            <?= Html::submitButton($modelNE->isNewRecord ? 'Guardar' : 'Guardar Actualización', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton($modelNE->isNewRecord ? 'Guardar' : 'Guardar Actualización', ['class' => 'btn btn-success']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

@@ -39,7 +39,7 @@ $this->title = 'Registrate en la Bolsa de Trabajo';
             <?= $form->field($model, 'password')->passwordInput() ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Usuario nuevo', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                <?= Html::submitButton('Usuario nuevo', ['class' => 'btn btn-success', 'name' => 'signup-button']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

@@ -38,7 +38,7 @@ $this->title = 'Bolsnet Xalapa';
             </div>
 
             <div class="form-group">
-                <?= Html::submitButton('Acceder', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('Acceder', ['class' => 'btn btn-success', 'name' => 'login-button']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
