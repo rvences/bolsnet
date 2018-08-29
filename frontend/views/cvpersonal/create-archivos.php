@@ -12,10 +12,15 @@ $this->params['breadcrumbs'][] = 'Creando';
 
 
 <div class="row">
+
     <div class="col-md-3">
         <?= $this->render('_menuizq', [ 'estado' => $estado]) ?>
     </div>
     <div class="col-md-9">
+        <h4 class="bg-warning">Solo adjuntar, IFE, CURP, Cédula, Título, Comprobante de Domicilio y aquellos documentos que considere necesarios para el puesto que solicita
+            </h4>
+
+
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form', 'options'=>['enctype'=>'multipart/form-data']]); ?>
         <?= $form->field($modelPersonal, 'nombre', ['showLabels'=>false ])->hiddenInput(); ?>
 
