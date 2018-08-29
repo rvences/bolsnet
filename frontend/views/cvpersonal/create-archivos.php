@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = 'Creando';
         <?= $this->render('_menuizq', [ 'estado' => $estado]) ?>
     </div>
     <div class="col-md-9">
-        <h4 class="bg-warning">Solo adjuntar, IFE, CURP, Cédula, Título, Comprobante de Domicilio y aquellos documentos que considere necesarios para el puesto que solicita
+        <h4 class="bg-warning">Sólo adjuntar, IFE, CURP, Cédula, Título, y aquellos documentos que considere necesarios para el puesto que solicita
             </h4>
 
 
