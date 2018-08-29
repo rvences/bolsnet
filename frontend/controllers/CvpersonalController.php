@@ -496,7 +496,7 @@ class CvpersonalController extends Controller
         $modelPersonal = $this->findModel($id->id);
 
         $archivos = new ActiveDataProvider([
-            'query' => Cvarchivos::find()->where(['cvpersonal_id' => Yii::$app->user->id])->orderBy('id DESC'),
+            'query' => Cvarchivos::find()->where(['cvpersonal_id' => $id->id])->orderBy('id DESC'),
             'pagination' => [
                 'pageSize' => 10,
             ],
