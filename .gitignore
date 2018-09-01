@@ -33,3 +33,12 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+/yii.bat
+/codeception.yml
+/.bowerrc
+/init.bat
+/LICENSE.md
+/Vagrantfile
+/requirements.php
+/README.md
+
