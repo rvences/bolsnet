@@ -11,7 +11,7 @@ use kartik\grid\GridView;
 $this->title = 'Puestos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cvpuestos-index">
+<div class="cvpuestos-index largo">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
