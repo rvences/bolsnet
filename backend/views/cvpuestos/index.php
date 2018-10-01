@@ -8,7 +8,7 @@ use kartik\grid\GridView;
 /* @var $searchModel backend\models\search\CvpuestosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cvpuestos';
+$this->title = 'Puestos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cvpuestos-index">
@@ -16,9 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cvpuestos', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?php
 
