@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\CestudiosEspecializaciones;
 use common\models\Cvarchivos;
 use common\models\Cvcursos;
 use common\models\Cvidiomas;
@@ -15,6 +16,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 
 
 
@@ -262,7 +264,7 @@ class CvpersonalController extends Controller
         if ($modelPersonal->load(Yii::$app->request->post())) {
 
             $oldIDs = ArrayHelper::map($modelsExperiencia, 'id', 'id');
-            $modelsExperiencia = Model::createMultiple(Cvexperiencia::class, $modelsExperiencia);
+            $modelsExperiencia = Model::createMultiple(Cvexperiencia::className(), $modelsExperiencia);
             Model::loadMultiple($modelsExperiencia, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsExperiencia, 'id', 'id')));
 
@@ -321,7 +323,7 @@ class CvpersonalController extends Controller
         if ($modelPersonal->load(Yii::$app->request->post())) {
 
             $oldIDs = ArrayHelper::map($modelsCurso, 'id', 'id');
-            $modelsCurso = Model::createMultiple(Cvcursos::class, $modelsCurso);
+            $modelsCurso = Model::createMultiple(Cvcursos::className(), $modelsCurso);
             Model::loadMultiple($modelsCurso, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsCurso, 'id', 'id')));
 
@@ -380,7 +382,7 @@ class CvpersonalController extends Controller
         if ($modelPersonal->load(Yii::$app->request->post())) {
 
             $oldIDs = ArrayHelper::map($modelsIdioma, 'id', 'id');
-            $modelsIdioma = Model::createMultiple(Cvidiomas::class, $modelsIdioma);
+            $modelsIdioma = Model::createMultiple(Cvidiomas::className(), $modelsIdioma);
             Model::loadMultiple($modelsIdioma, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsIdioma, 'id', 'id')));
 
@@ -440,7 +442,7 @@ class CvpersonalController extends Controller
         if ($modelPersonal->load(Yii::$app->request->post())) {
 
             $oldIDs = ArrayHelper::map($modelsPuesto, 'id', 'id');
-            $modelsPuesto = Model::createMultiple(Cvpuestos::class, $modelsPuesto);
+            $modelsPuesto = Model::createMultiple(Cvpuestos::className(), $modelsPuesto);
             Model::loadMultiple($modelsPuesto, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsPuesto, 'id', 'id')));
 
@@ -547,4 +549,27 @@ class CvpersonalController extends Controller
 
         return $this->redirect(['cvpersonal/create-archivos']);
     }
+
+
+    public function actionSubcat() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                $out = CestudiosEspecializaciones::find()->select('id, especializacion as name' )->where(['nivelestudios_id' => $cat_id])->asArray()->all(); //;
+
+                $prevalor = CestudiosEspecializaciones::find()->select('id, especializacion as name')->asArray()->all();
+                echo json_encode(['output' => $out, 'selected' => 2]);
+                return;
+            }
+        }
+        echo json_encode(['output' => $out, 'selected' => 2]);
+        return;
+    }
+
+
+
+
+
 }

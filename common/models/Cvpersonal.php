@@ -49,7 +49,6 @@ use Yii;
 class Cvpersonal extends \yii\db\ActiveRecord
 {
     public $buscar_nombre_completo;
-
     /**
      * {@inheritdoc}
      */
@@ -82,6 +81,10 @@ class Cvpersonal extends \yii\db\ActiveRecord
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             ['correo', 'email'],
             [['nombre', 'apaterno', 'amaterno', 'calle', 'numero', 'entrecalle', 'colonia', 'municipio', 'rfc', 'curp'], 'filter', 'filter' => 'strtoupper'],
+
+           // [['privacidad'], 'required', 'requiredValue'=> 1, 'message'=>'Debes de estar de acuerdo'],
+
+
         ];
     }
 
@@ -118,14 +121,14 @@ class Cvpersonal extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'buscar_nombre_completo' => 'Nombre',
             'buscar_puestos_id' => 'Puesto solicitado',
-            'seguimiento_id' => 'Seguimiento'
+            'seguimiento_id' => 'Seguimiento',
         ];
     }
 
     public static function catSexo() {
         return array(
-            'F' => 'Femenino',
-            'H' => 'Masculino',
+            'F' => 'Mujer',
+            'H' => 'Hombre',
         );
     }
 

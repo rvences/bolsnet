@@ -95,14 +95,14 @@ use kartik\widgets\RangeInput;
         <div class="col-md-4">
             <p>Indicar si es relevante filtrar la información de los CV de acuerdo al Sexo del aspirante</p>
             <?php
-            $data = ['Hombre' => 'Masculino', 'Mujer' => 'Femenino', 'Indistinto' => 'No Relevante' ];
+            $data = ['Hombre' => 'Hombre', 'Mujer' => 'Mujer', 'Indistinto' => 'No Relevante' ];
             echo $form->field($model, 'sexo')->radioButtonGroup($data);?>
         </div>
 
         <div class="col-md-3">
             <p>Indicar cuanto tiempo va a estar disponible la vacante, sin importar si existen aspirantes o NO</p>
             <?= $form->field($model, 'vigencia')
-                ->widget(\kartik\datecontrol\DateControl::class, [
+                ->widget(\kartik\datecontrol\DateControl::className(), [
 
                     'displayFormat' => 'php:d-M-Y',
                 'type'=>\kartik\datecontrol\DateControl::FORMAT_DATE,
@@ -193,6 +193,7 @@ use kartik\widgets\RangeInput;
 
     <div class="form-group">
         <?= Html::submitButton('Enviar', ['class' => 'btn btn-success']) ?>
+
     </div>
 
     <?php ActiveForm::end(); ?>

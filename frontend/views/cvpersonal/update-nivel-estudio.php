@@ -3,11 +3,15 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\ArrayHelper;
+use kartik\depdrop\DepDrop;
+use yii\helpers\Url;
+use kartik\datecontrol\DateControl;
 
 $this->params['breadcrumbs'][] = ['label' => 'Datos Personales', 'url' => ['update', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Estudios Académicos'];
 $this->params['breadcrumbs'][] = 'Actualizando';
 ?>
+
 
 <?php /*
 echo "<pre>";
@@ -20,6 +24,9 @@ echo "</pre>"; */
     </div>
     <div class="col-md-9">
         <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+
+        <?php     echo $form->errorSummary([$model]);
+?>
         <?= $form->field($model, 'nombre', ['showLabels'=>false ])->hiddenInput(); ?>
 
         <?php DynamicFormWidget::begin([
@@ -34,10 +41,9 @@ echo "</pre>"; */
             'formId' => 'dynamic-form',
             'formFields' => [
                 'escuela',
-                'certificado',
-                'titulo',
-                'cedula',
-
+                'ffin',
+                'cnivelestudio_id',
+                'cprofesion_id',
             ],
         ]); ?>
 
@@ -67,28 +73,68 @@ echo "</pre>"; */
                                 }
                                 ?>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         <?= $form->field($modelNE, "[{$i}]escuela")->textInput(['maxlength' => true]) ?>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <?php
+                                        echo $form->field($modelNE, "[{$i}]ffin")->widget(DateControl::classname(), [
+                                            'type'=>DateControl::FORMAT_DATE,
+                                            'ajaxConversion'=>false,
+                                            'displayFormat' => 'php:m-Y',
+                                            'widgetOptions' => [
+                                                'pluginOptions' => [
+                                                    'autoclose' => true,
+                                                    'startView'=>'year',
+                                                    'minViewMode'=>'months',
+                                                ]
+                                            ]
+                                        ]);
+                                        ?>
                                     </div>
                                 </div>
 
 
                                 <div class="row">
                                     <div class="col-md-6">
+
                                         <?php $lista = ArrayHelper::map(\common\models\Cnivelestudios::find()->asArray()->all(), 'id', 'nivelestudio');
                                         echo $form->field($modelNE, "[{$i}]cnivelestudio_id")->dropDownList($lista, ['prompt' => '[Selecciona]']);
                                         ?>
                                     </div>
+
                                     <div class="col-md-6">
+                                         <?php
+                                         $valor_texto = \common\models\CestudiosEspecializaciones::find()->select('id, especializacion')->where(['id'=> $modelNE['nivelestudios_id'] ])->one();
+                                        echo $form->field($modelNE,"[{$i}]nivelestudios_id")->widget(DepDrop::className(), [
+                                            'data'=> [ $valor_texto['id']=> $valor_texto['especializacion'] ],
+                                            'options' => ['placeholder' => 'Seleccionar dato ...'],
+                                            'type' => DepDrop::TYPE_SELECT2,
+                                            'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                                            'pluginOptions'=> [
+                                                'depends' => ['cvnivelestudio-'.$i.'-cnivelestudio_id'],
+                                                'url'=>Url::to(['/cvpersonal/subcat']),
+                                                'loadingText' => 'Obteniendo datos ...',
+
+                                            ]
+                                        ]);
+
+                                        ?>
+
+
+
+
+                                        <?php /*
                                         <?php $lista = ArrayHelper::map(\common\models\Cprofesiones::find()->asArray()->all(), 'id', 'profesion');
                                         echo $form->field($modelNE, "[{$i}]cprofesion_id")->dropDownList(
                                             ArrayHelper::map(\common\models\Cprofesiones::find()->asArray()->all(), 'id', 'profesion')
 
                                                 , ['prompt' => '[Selecciona]']);
-                                        ?>
+                                        */?>
                                     </div>
                                 </div>
-
+<?php /*
                                 <div class="row">
                                     <div class="col-md-4">
                                         <?= $form->field($modelNE, "[{$i}]certificado")->checkbox(['checked' => false]); ?>
@@ -101,7 +147,7 @@ echo "</pre>"; */
                                     </div>
 
                                 </div><!-- .row -->
-
+*/ ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
