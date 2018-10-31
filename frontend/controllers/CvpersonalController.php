@@ -560,7 +560,11 @@ class CvpersonalController extends Controller
                 $out = CestudiosEspecializaciones::find()->select('id, especializacion as name' )->where(['nivelestudios_id' => $cat_id])->asArray()->all(); //;
 
                 $prevalor = CestudiosEspecializaciones::find()->select('id, especializacion as name')->asArray()->all();
-                echo json_encode(['output' => $out, 'selected' => 2]);
+
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                \Yii::$app->response->data  =  ['output' => $out, 'selected' => '']; //  $data;
+                //      echo Json::encode(['output' => $out, 'selected' => $selected]);
+
                 return;
             }
         }
